@@ -1,0 +1,18 @@
+/** @type {import('tailwindcss').Config} */
+import defaultTheme from "tailwindcss/defaultTheme";
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/primereact/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["inter", ...defaultTheme.fontFamily.sans],
+      },
+    },
+  },
+  plugins: [],
+};
+
