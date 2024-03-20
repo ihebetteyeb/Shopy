@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const userApiSlice = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api",
+    baseUrl: "https://jsonplaceholder.typicode.com",
   }),
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -27,10 +27,21 @@ const userApiSlice = createApi({
         credentials: "include",
       }),
     }),
+    test: builder.query({
+      query: () => ({
+        url: "/todos/1",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation } =
-  userApiSlice;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useTestQuery,
+} = userApiSlice;
 
 export default userApiSlice;

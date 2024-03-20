@@ -1,8 +1,12 @@
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth.js";
+import { useForm } from "react-hook-form";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
+import SigninImg from "../../assets/1.svg";
+import { useTestQuery } from "../../store/state/userApiSlice.jsx";
 
 import {
   IconBrandGoogle,
@@ -11,70 +15,92 @@ import {
 } from "@tabler/icons-react";
 
 function Home() {
+  const { data } = useTestQuery();
   const user = useAuth();
   console.log(user);
+  const { handleSubmit, register } = useForm();
+
+  const handleLogin = () => {};
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
-    <div className="grid grid-cols-3 h-screen ">
-      <div className="col-span-2 border-[1px] border-black w-full ">
-        <div className="flex flex-col gap-[50px] w-full">
-          <div>Logo</div>
-          <div className="flex flex-col items-center gap-[30px]">
-            <h1 className=" text-[32px] leading-[38px] tracking-[0.27px] font-cal-sans font-bold">
-              Sign in to Diprella
-            </h1>
-            <div className="flex gap-[10px]">
-              <Button icon={<IconBrandMeta className="" />} outlined rounded />
-              <Button
-                icon={<IconBrandGoogle className="" />}
-                outlined
-                rounded
-              />
-              <Button
-                icon={<IconBrandLinkedin className="" />}
-                rounded
-                outlined
-              />
-            </div>
-            <small className="text-gray-400">or use your email account:</small>
-            <div className="grid gap-2 items-stretch">
-              <span className="p-float-label">
-                <InputText
-                  id="username"
-                  aria-describedby="username-help"
-                  className=""
+    <div className="grid grid-cols-2 h-screen w-screen">
+      <form
+        className="flex flex-col gap-[24px]"
+        autoComplete="off"
+        onSubmit={handleSubmit(handleLogin)}
+      >
+        <div className="w-full flex flex-col justify-center">
+          <div className="flex flex-col gap-[50px] w-full ">
+            {/* <div>Logo</div> */}
+            <div className="flex flex-col items-center gap-[30px]">
+              <h1 className=" text-[48px] leading-[38px] tracking-[0.27px] font-cal-sans font-bold text-[]">
+                Sign in to Shopy
+              </h1>
+              <div className="flex gap-[10px]">
+                <Button
+                  icon={<IconBrandMeta className="border-black" />}
+                  outlined
+                  rounded
                 />
-                <label htmlFor="username">Username</label>
-              </span>
-              <span className="p-float-label">
-                <Password
-                  inputId="password"
-                  //   value={value}
-                  //   onChange={(e) => setValue(e.target.value)}
+                <Button
+                  icon={<IconBrandGoogle className="" />}
+                  outlined
+                  rounded
                 />
-                <label htmlFor="password">Password</label>
-              </span>
-            </div>
-            <div className="flex flex-col gap-[3px]">
-              <small className="font-semibold font-inter">
-                Forgot your password?
+                <Button
+                  icon={<IconBrandLinkedin className="" />}
+                  rounded
+                  outlined
+                />
+              </div>
+              <small className="text-gray-400">
+                or use your email account:
               </small>
-              <div className="border-[1px]" />
-            </div>
-            <div>
-              <Button label="Sign in " className="rounded-full" />
+              <div className="grid gap-[30px] items-stretch">
+                <span className="p-float-label">
+                  <InputText
+                    id="username"
+                    aria-describedby="username-help"
+                    className=""
+                    {...register("username")}
+                  />
+                  <label htmlFor="username">Username</label>
+                </span>
+                <span className="p-float-label">
+                  <Password inputId="password" />
+                  <label htmlFor="password">Password</label>
+                </span>
+              </div>
+              <div className="flex flex-col gap-[3px]">
+                <small className="font-semibold font-inter">
+                  Forgot your password?
+                </small>
+                <div className="border-[1px]" />
+              </div>
+              <div>
+                <Button
+                  type="submit"
+                  label="Sign in "
+                  className="rounded-full w-[200px]"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col justify-center items-center gap-[30px]">
-        2<h2>Hello, Friend!</h2>
-        <div className="">
+        <div className="flex flex-col justify-center items-center gap-[30px] h-fill bg-[#DEEBFF]">
+          {/* 2<h2>Hello, Friend!</h2> */}
+          <img src={SigninImg} className="h-full " />
+          {/* <div className="">
           <p>Enter your personal details</p>
           <p>and start your journey with us</p>
+        </div> */}
+          {/* <Button label="Sign up" className="rounded-full" outlined />{" "} */}
         </div>
-        <Button label="Sign up" className="rounded-full" outlined />{" "}
-      </div>
+      </form>
     </div>
   );
 }
