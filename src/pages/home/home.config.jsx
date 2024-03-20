@@ -1,6 +1,6 @@
 import Home from "./home.jsx";
 
 export default {
-  path: "/",
+  path: "/home",
   element: <Home />,
 };
