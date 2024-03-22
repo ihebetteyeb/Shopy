@@ -10,7 +10,7 @@ import "./login.css";
 import { useLoginMutation } from "../../store/state/userApiSlice";
 
 export default function Login() {
-  const [useLogin] = useLoginMutation();
+  const [useLogin, { isLoading, isError, error, data }] = useLoginMutation();
   const toast = useRef(null);
 
   const show = () => {
@@ -34,10 +34,9 @@ export default function Login() {
     reset,
   } = useForm({ defaultValues });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    let log = { userame: "bilel", password: "bilel" };
-    useLogin(log);
+  const onSubmit = async (data) => {
+    const res = await useLogin(data).unwrap();
+    console.log(res);
     reset();
   };
 

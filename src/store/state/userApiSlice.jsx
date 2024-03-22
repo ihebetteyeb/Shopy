@@ -4,18 +4,14 @@ const userApiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8090",
   }),
+  tagTypes: ["User"],
   endpoints: (builder) => ({
     login: builder.mutation({
-      query: (body) => (
-        console.log(body),
-        {
-          url: "/auth/authenticate",
-          method: "POST",
-          body,
-          credentials: "include",
-        },
-        console.log("testing")
-      ),
+      query: (body) => ({
+        url: "/auth/authenticate",
+        method: "POST",
+        body,
+      }),
     }),
     register: builder.mutation({
       query: (body) => ({
