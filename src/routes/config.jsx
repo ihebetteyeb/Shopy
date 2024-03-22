@@ -3,7 +3,8 @@ import NotFound from "../pages/404/404";
 import homeConfig from "../pages/home/home.config";
 import Login from "../pages/Auth/login";
 import Register from "../pages/Auth/register";
-
+import Header from "../components/header/header";
+import Landing from "../components/landing/landing";
 const routeConfigs = [homeConfig];
 
 const routes = [
@@ -24,6 +25,10 @@ const routes = [
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/landing",
+    element: <Landing />,
   },
 ];
 export default routes;

@@ -7,6 +7,8 @@ import "./index.css";
 import { PrimeReactProvider } from "primereact/api";
 import "primereact/resources/primereact.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primeicons/primeicons.css";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
