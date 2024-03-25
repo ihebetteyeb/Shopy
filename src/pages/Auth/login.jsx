@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "primereact/button";
 import { classNames } from "primereact/utils";
@@ -8,18 +8,20 @@ import { Card } from "primereact/card";
 import { Password } from "primereact/password";
 import "./login.css";
 import { useLoginMutation } from "../../store/state/userApiSlice";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
   const [useLogin, { isLoading, isError, error, data }] = useLoginMutation();
   const toast = useRef(null);
 
-  const show = () => {
-    toast.current.show({
-      severity: "success",
-      summary: "Form Submitted",
-      detail: getValues("password", "username"),
-    });
-  };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("hook effect");
+    if (data?.data) {
+      dispatch(setCredentials(data.data));
+    }
+  }, [data]);
 
   const defaultValues = {
     username: "",
@@ -30,7 +32,6 @@ export default function Login() {
     control,
     formState: { errors },
     handleSubmit,
-    getValues,
     reset,
   } = useForm({ defaultValues });
 
@@ -116,7 +117,7 @@ export default function Login() {
               />
             </div>
             <div className="flex justify-center col-span-2 pt-2">
-              <Button label="Submit" type="submit" icon="pi pi-check" />
+              <Button label="Login" type="submit" />
             </div>
           </form>
         </div>
