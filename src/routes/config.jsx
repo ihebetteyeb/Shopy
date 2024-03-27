@@ -1,7 +1,9 @@
 import { Navigate } from "react-router-dom";
 import NotFound from "../pages/404/404";
 import homeConfig from "../pages/home/home.config";
-
+import Login from "../pages/Auth/login";
+import Register from "../pages/Auth/register";
+import Footer from "../components/footer/footer";
 const routeConfigs = [homeConfig];
 
 const routes = [
@@ -13,7 +15,15 @@ const routes = [
   },
   {
     path: "*",
-    element: <Navigate to="404" replace />,
+    element: <Navigate to="/home" replace />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 ];
 export default routes;

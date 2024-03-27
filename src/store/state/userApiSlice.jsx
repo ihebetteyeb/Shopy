@@ -2,15 +2,17 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const userApiSlice = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://jsonplaceholder.typicode.com",
+
+    baseUrl: "http://localhost:8090",
+
   }),
+  tagTypes: ["User"],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (body) => ({
-        url: "/auth/login",
+        url: "/auth/authenticate",
         method: "POST",
         body,
-        credentials: "include",
       }),
     }),
     register: builder.mutation({

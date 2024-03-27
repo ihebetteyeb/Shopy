@@ -85,9 +85,11 @@ function Home() {
                 />
               </div>
             </div>
+
           </div>
         </form>
       </div>
+
       <div className="flex flex-col justify-center items-center gap-[30px] h-fill bg-[#DEEBFF]">
         {/* 2<h2>Hello, Friend!</h2> */}
         <img src={SigninImg} className="h-full " />
@@ -97,6 +99,19 @@ function Home() {
         </div> */}
         {/* <Button label="Sign up" className="rounded-full" outlined />{" "} */}
       </div>
+      <div className="relative flex justify-center items-center text-2xl font-semibold bg-zinc-100 pt-2 pb-8">
+        <h2 className="pt-4 ">Try It For Free. No Registration Needed.</h2>
+        <div className="absolute bg-black -top-3 h-6 w-6 rotate-45"></div>
+      </div>
+      <div className="pt-24">
+        <ItemCarousel
+          title="Trending products"
+          indicators={false}
+          navigators={false}
+        ></ItemCarousel>
+      </div>
+      <Review></Review>
+      <Footer></Footer>
     </div>
   );
 }
