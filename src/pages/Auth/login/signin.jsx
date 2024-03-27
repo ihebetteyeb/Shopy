@@ -1,12 +1,12 @@
 // import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import useAuth from "../../hooks/useAuth.js";
+import useAuth from "../../../hooks/useAuth.js";
 import { useForm } from "react-hook-form";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import SigninImg from "../../assets/1.svg";
-import { useTestQuery } from "../../store/state/userApiSlice.jsx";
+import SigninImg from "../../../assets/1.svg";
+import { useTestQuery } from "../../../store/state/userApiSlice.jsx";
 
 import {
   IconBrandGoogle,
@@ -26,8 +26,8 @@ function Home() {
     console.log(data);
   }, [data]);
 
-return (
-  <div className="grid grid-cols-2 h-screen w-screen">
+  return (
+    <div className="grid grid-cols-2 h-screen w-screen">
       <div className="w-full flex flex-col justify-center">
         <form autoComplete="off" onSubmit={handleSubmit(handleLogin)}>
           <div className="flex flex-col gap-[50px] w-full ">

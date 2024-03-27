@@ -4,7 +4,8 @@ import homeConfig from "../pages/home/home.config";
 import Login from "../pages/Auth/login";
 import Register from "../pages/Auth/register";
 import Footer from "../components/footer/footer";
-const routeConfigs = [homeConfig];
+import signinConfig from "../pages/Auth/login/signin.config";
+const routeConfigs = [homeConfig, signinConfig];
 
 const routes = [
   ...routeConfigs,
@@ -16,14 +17,6 @@ const routes = [
   {
     path: "*",
     element: <Navigate to="/home" replace />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
   },
 ];
 export default routes;
