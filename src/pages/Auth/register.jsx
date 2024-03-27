@@ -14,8 +14,8 @@ export default function Register() {
     useRegisterMutation();
 
   const defaultValues = {
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     username: "",
     email: "",
     password: "",
@@ -49,7 +49,7 @@ export default function Register() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Toast ref={toast} />
             <Controller
-              name="firstName"
+              name="firstname"
               control={control}
               rules={{ required: "First name is required." }}
               render={({ field, fieldState }) => (
@@ -78,7 +78,7 @@ export default function Register() {
             />
             <Toast ref={toast} />
             <Controller
-              name="lastName"
+              name="lastname"
               control={control}
               rules={{ required: "Last name is required." }}
               render={({ field, fieldState }) => (

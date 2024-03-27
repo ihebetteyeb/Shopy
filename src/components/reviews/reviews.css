@@ -1,0 +1,33 @@
+.p-card-footer {
+  padding: 0 0 0 0;
+}
+.p-card-title {
+  display: grid;
+  justify-items: center !important;
+}
+
+#ads .p-button {
+  background-color: yellowgreen;
+  border-color: yellowgreen;
+}
+
+#ads .p-card-body {
+  padding: 1.25rem;
+  color: white;
+  background-image: url("https://staticcookist.akamaized.net/wp-content/uploads/sites/22/2018/12/vegetables.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: contrast(50%);
+}
+#ads .p-card-body:hover {
+  filter: contrast(100%);
+}
+#ads .p-card-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+}
+
+.p-rating-icon {
+  color: rgb(186, 219, 0);
+}

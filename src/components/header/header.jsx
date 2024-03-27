@@ -73,13 +73,13 @@ export default function Header() {
   const start = (
     <img
       alt="logo"
-      src="src/assets/logo_store.png"
+      src="src/assets/logo-no-background.png"
       width="90"
       className="mr-2"
     ></img>
   );
   const end = (
-    <div className="flex align-items-center justify-center gap-6">
+    <div className="flex justify-center items-center gap-6">
       <a>About</a>
 
       <a>Contact</a>

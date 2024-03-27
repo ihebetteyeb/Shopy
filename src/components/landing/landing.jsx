@@ -17,8 +17,8 @@ const Landing = () => {
         </div>
         <div className="flex items-center justify-center w-full lg:w-1/2">
           <div className="max-w-2xl mb-8">
-            <div className="flex justify-center">
-              <h1 className="text-4xl font-bold leading-snug tracking-tight">
+            <div className="flex justify-center ">
+              <h1 className="text-4xl font-bold">
                 Join The Organic Movement !
               </h1>
             </div>
@@ -32,7 +32,6 @@ const Landing = () => {
                 href=""
                 className="px-8 py-4 text-lg font-medium text-center text-white bg-lime-700 rounded-md "
               >
-                {" "}
                 <div
                   className="pi pi-shopping-cart pr-2 text-white"
                   style={{ fontSize: "1.3rem" }}
@@ -44,7 +43,7 @@ const Landing = () => {
         </div>
       </div>
       <div className="p-7 bg-black">
-        <div className="grid grid-cols-6 flex jusitfy-center gap-10 text-white">
+        <div className="grid grid-cols-6  jusitfy-center gap-10 text-white">
           <div className="col-span-1" />
           <div className="col-span-1 bg-slate-700 p-8">
             <a className="text-2xl font-medium ">
