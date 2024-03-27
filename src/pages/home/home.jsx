@@ -28,12 +28,8 @@ function Home() {
 
   return (
     <div className="grid grid-cols-2 h-screen w-screen">
-      <form
-        className="flex flex-col gap-[24px]"
-        autoComplete="off"
-        onSubmit={handleSubmit(handleLogin)}
-      >
-        <div className="w-full flex flex-col justify-center">
+      <div className="w-full flex flex-col justify-center">
+        <form autoComplete="off" onSubmit={handleSubmit(handleLogin)}>
           <div className="flex flex-col gap-[50px] w-full ">
             {/* <div>Logo</div> */}
             <div className="flex flex-col items-center gap-[30px]">
@@ -90,17 +86,17 @@ function Home() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col justify-center items-center gap-[30px] h-fill bg-[#DEEBFF]">
-          {/* 2<h2>Hello, Friend!</h2> */}
-          <img src={SigninImg} className="h-full " />
-          {/* <div className="">
+        </form>
+      </div>
+      <div className="flex flex-col justify-center items-center gap-[30px] h-fill bg-[#DEEBFF]">
+        {/* 2<h2>Hello, Friend!</h2> */}
+        <img src={SigninImg} className="h-full " />
+        {/* <div className="">
           <p>Enter your personal details</p>
           <p>and start your journey with us</p>
         </div> */}
-          {/* <Button label="Sign up" className="rounded-full" outlined />{" "} */}
-        </div>
-      </form>
+        {/* <Button label="Sign up" className="rounded-full" outlined />{" "} */}
+      </div>
     </div>
   );
 }
