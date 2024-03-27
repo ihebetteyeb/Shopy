@@ -2,10 +2,9 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-
     extend: {
       fontFamily: {
-        sans: ["inter", ...defaultTheme.fontFamily.sans],
+        // sans: ["inter", ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         signIn: "url('./src/assets/1.svg')",
@@ -18,7 +17,6 @@ module.exports = {
         16: "4rem",
       },
     },
-
   },
   plugins: [],
 };
