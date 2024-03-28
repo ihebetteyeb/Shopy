@@ -3,16 +3,15 @@ import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth.js";
 import { useForm } from "react-hook-form";
 import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
-import SigninImg from "../../assets/1.svg";
-import { useTestQuery } from "../../store/state/userApiSlice.jsx";
 
-import {
-  IconBrandGoogle,
-  IconBrandMeta,
-  IconBrandLinkedin,
-} from "@tabler/icons-react";
+import { useTestQuery } from "../../store/state/userApiSlice.jsx";
+import ItemCarousel from "../../components/itemCarousel/itemCarousel.jsx";
+import ItemCard from "../../components/itemCard/itemCard.jsx";
+// import { Button } from "primereact/button";
+import Review from "../../components/reviews/reviews.jsx";
+import Footer from "../../components/footer/footer.jsx";
+import Header from "../../components/header/header.jsx";
+import Landing from "../../components/landing/landing.jsx";
 
 function Home() {
   const { data } = useTestQuery();
@@ -27,77 +26,40 @@ function Home() {
   }, [data]);
 
   return (
-    <div className="grid grid-cols-2 h-screen w-screen">
-      <div className="w-full flex flex-col justify-center">
-        <form autoComplete="off" onSubmit={handleSubmit(handleLogin)}>
-          <div className="flex flex-col gap-[50px] w-full ">
-            {/* <div>Logo</div> */}
-            <div className="flex flex-col items-center gap-[30px]">
-              <h1 className=" text-[48px] leading-[38px] tracking-[0.27px] font-cal-sans font-bold text-[]">
-                Sign in to Shopy
-              </h1>
-              <div className="flex gap-[10px]">
-                <Button
-                  icon={<IconBrandMeta className="border-black" />}
-                  outlined
-                  rounded
-                />
-                <Button
-                  icon={<IconBrandGoogle className="" />}
-                  outlined
-                  rounded
-                />
-                <Button
-                  icon={<IconBrandLinkedin className="" />}
-                  rounded
-                  outlined
-                />
-              </div>
-              <small className="text-gray-400">
-                or use your email account:
-              </small>
-              <div className="grid gap-[30px] items-stretch">
-                <span className="p-float-label">
-                  <InputText
-                    id="username"
-                    aria-describedby="username-help"
-                    className=""
-                    {...register("username")}
-                  />
-                  <label htmlFor="username">Username</label>
-                </span>
-                <span className="p-float-label">
-                  <Password inputId="password" />
-                  <label htmlFor="password">Password</label>
-                </span>
-              </div>
-              <div className="flex flex-col gap-[3px]">
-                <small className="font-semibold font-inter">
-                  Forgot your password?
-                </small>
-                <div className="border-[1px]" />
-              </div>
-              <div>
-                <Button
-                  type="submit"
-                  label="Sign in "
-                  className="rounded-full w-[200px]"
-                />
-              </div>
-            </div>
-
+    <div>
+      <Header></Header>
+      <Landing></Landing>
+      <div className="pt-24">
+        <ItemCarousel
+          title="Best Selling items"
+          indicators={false}
+          navigators={true}
+        ></ItemCarousel>
+      </div>
+      <div className="pt-24">
+        <div className="relative flex justify-center bg-zinc-50">
+          <div className="flex justify-center absolute -top-10">
+            <img src="src/assets/basil-leaf.png" />
           </div>
-        </form>
+          <div className="pt-10">
+            <ItemCard> </ItemCard>
+          </div>
+        </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-[30px] h-fill bg-[#DEEBFF]">
-        {/* 2<h2>Hello, Friend!</h2> */}
-        <img src={SigninImg} className="h-full " />
-        {/* <div className="">
-          <p>Enter your personal details</p>
-          <p>and start your journey with us</p>
-        </div> */}
-        {/* <Button label="Sign up" className="rounded-full" outlined />{" "} */}
+      <div className="p-8 bg-black">
+        <div className="grid grid-cols-2 gap-2 text-white">
+          <div className="col-span-1 text-3xl font-bold text-right h-15">
+            <p>Get 25% Off On Your First Purchase!</p>
+          </div>
+          <div className="flex col-span-1 justify-center">
+            <Button
+              label="Shop now"
+              icon="pi pi-shopping-cart"
+              iconPos="right"
+            />
+          </div>
+        </div>
       </div>
       <div className="relative flex justify-center items-center text-2xl font-semibold bg-zinc-100 pt-2 pb-8">
         <h2 className="pt-4 ">Try It For Free. No Registration Needed.</h2>
