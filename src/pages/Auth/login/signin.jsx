@@ -8,15 +8,18 @@ import { Password } from "primereact/password";
 import SigninImg from "../../../assets/1.svg";
 // import { useTestQuery } from "../../../store/state/userApiSlice.jsx";
 import { useLoginMutation } from "../../../store/state/userApiSlice.jsx";
+import { setCredentials } from "../../../store/state/userSlice.jsx";
 
 import {
   IconBrandGoogle,
   IconBrandMeta,
   IconBrandLinkedin,
 } from "@tabler/icons-react";
+import { useDispatch } from "react-redux";
 
 function Home() {
   // const { data } = useTestQuery();
+  const dispatch = useDispatch();
   const [login, { isLoading, data: dataLogin }] = useLoginMutation();
   const user = useAuth();
   const { handleSubmit, register, setValue, reset } = useForm();
@@ -30,8 +33,11 @@ function Home() {
   };
 
   useEffect(() => {
-    console.log(dataLogin);
+    if (dataLogin?.accessToken) {
+      dispatch(setCredentials(dataLogin?.accessToken));
+    }
   }, [dataLogin]);
+
   if (isLoading) {
     return <p>isLoading...</p>;
   }
