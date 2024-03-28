@@ -6,7 +6,8 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import SigninImg from "../../../assets/1.svg";
-import { useTestQuery } from "../../../store/state/userApiSlice.jsx";
+// import { useTestQuery } from "../../../store/state/userApiSlice.jsx";
+import { useLoginMutation } from "../../../store/state/userApiSlice.jsx";
 
 import {
   IconBrandGoogle,
@@ -15,17 +16,25 @@ import {
 } from "@tabler/icons-react";
 
 function Home() {
-  const { data } = useTestQuery();
+  // const { data } = useTestQuery();
+  const [login, { isLoading, data: dataLogin }] = useLoginMutation();
   const user = useAuth();
-  console.log(user);
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, setValue, reset } = useForm();
 
-  const handleLogin = () => {};
+  console.log(user);
+
+  const handleLogin = (datas) => {
+    console.log(datas);
+    login(datas);
+    reset();
+  };
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
-
+    console.log(dataLogin);
+  }, [dataLogin]);
+  if (isLoading) {
+    return <p>isLoading...</p>;
+  }
   return (
     <div className="grid grid-cols-2 h-screen w-screen">
       <div className="w-full flex flex-col justify-center">
@@ -67,7 +76,12 @@ function Home() {
                   <label htmlFor="username">Username</label>
                 </span>
                 <span className="p-float-label">
-                  <Password inputId="password" />
+                  <Password
+                    id="password"
+                    onChange={(e) => setValue("password", e.target.value)}
+                    feedback={false}
+                    tabIndex={1}
+                  />
                   <label htmlFor="password">Password</label>
                 </span>
               </div>

@@ -1,7 +1,7 @@
 // import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth.js";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 import { Button } from "primereact/button";
 
 import { useTestQuery } from "../../store/state/userApiSlice.jsx";
@@ -17,9 +17,6 @@ function Home() {
   const { data } = useTestQuery();
   const user = useAuth();
   console.log(user);
-  const { handleSubmit, register } = useForm();
-
-  const handleLogin = () => {};
 
   useEffect(() => {
     console.log(data);
