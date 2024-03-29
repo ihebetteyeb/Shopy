@@ -5,7 +5,9 @@ import Login from "../pages/Auth/login";
 import Register from "../pages/Auth/register";
 import Footer from "../components/footer/footer";
 import signinConfig from "../pages/Auth/login/signin.config";
-const routeConfigs = [homeConfig, signinConfig];
+import productConfig from "../pages/product/product.config";
+
+const routeConfigs = [homeConfig, signinConfig, productConfig];
 
 const routes = [
   ...routeConfigs,
