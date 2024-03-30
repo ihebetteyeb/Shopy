@@ -2,8 +2,7 @@ import React from "react";
 
 const ProductOverView = () => {
   return (
-    //<div class="max-w-lg mx-auto  md:max-w-2xl lg:flex flex items-start justify-center">
-    <div class="md:flex items-start justify-center my-10">
+    <div className="md:flex items-start justify-center my-10">
         <img 
             class="object-cover" 
                 height="550"
@@ -12,16 +11,16 @@ const ProductOverView = () => {
                 alt="Assorted Coffee"
                 loading="eager"
                 placeholder="blur"/>
-        <div class="my-1 mx-7">
+        <div className="my-1 md:mx-7 ">
             <div className="border-b border-solid border-gray-300">
-                <div class="tracking-wide text-2xl font-semibold">Assorted Coffee</div>
+                <div className="tracking-wide text-2xl font-semibold">Assorted Coffee</div>
 
                 <div className="flex justify-start  pt-3 mt-1 font-medium text-black align-text-bottom">
                         <h2 className=" text-xl font-bold pr-2">£35.00</h2>
                         <p className="font-light">+ Free Shipping</p>
                 </div>
                 
-                <p class="mt-2 font-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui deleniti, quos recusandae tempore eaque nam neque itaque molestias officiis inventore sunt quis expedita quisquam exercitationem distinctio quae voluptatibus iste accusantium.</p>
+                <p className="mt-2 font-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui deleniti, quos recusandae tempore eaque nam neque itaque molestias officiis inventore sunt quis expedita quisquam exercitationem distinctio quae voluptatibus iste accusantium.</p>
 
                 <div className="max-w-md flex justify-start mt-5 lg:flex pb-5 ">
                         <input

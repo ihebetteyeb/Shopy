@@ -1,8 +1,16 @@
 import React, {useState} from "react";
+import { MdStarBorder, MdStar } from 'react-icons/md';
 
 
 
 const ProductReview = () => {
+  const [rating, setRating] = useState(0);
+
+  const handleStarClick = (index) => {
+    setRating(index + 1);
+    console.log(rating)
+  };
+
   return (
     
     <div className="">
@@ -12,6 +20,26 @@ const ProductReview = () => {
         <div className="pb-12">
           <h2 className="text-base font-normal leading-7 text-gray-900">Be the first to review “Assorted Coffee”</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">Your email address will not be published. Required fields are marked *</p>
+
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6  font-light">
+            <div className="col-span-full flex">
+              <label htmlFor="review" className="block text-sm leading-6 text-gray-900 mr-5">
+              Your rating *
+              </label>
+              <div className="flex">
+              {[...Array(5)].map((_, index) => (
+                <span
+                  key={index}
+                  onClick={() => handleStarClick(index)}
+                  onMouseEnter={() => setRating(index + 1)}
+                  //onMouseLeave={() => setRating(0)}
+                >
+                  {index < rating ? <MdStar /> : <MdStarBorder />}
+                </span>
+              ))}
+            </div>
+            </div>
+          </div>          
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6  font-light">
             <div className="col-span-full">

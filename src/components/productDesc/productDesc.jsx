@@ -22,15 +22,15 @@ const ProductDesc = () => {
         <nav class="flex items-start justify-start border-t border-gray-300 " aria-label="Tabs">
         {Tabs.map((item,index) => (
             <button 
-            class={`py-4 px-6 block focus:outline-none border-t-2 border-transparent hover:border-lime-500 font-medium
-                ${activeTab === index ? 'border-t-3 border-lime-500 text-black' : 'text-gray-500'}` }
+            class={`py-4 px-6 block focus:outline-none  hover:text-black font-medium
+                ${activeTab === index ? 'text-black font-semibold border-t-2 border-lime-500' : 'text-gray-500'}` }
             onClick={() => setActiveTab(index)}
             aria-current="page" 
             key={index}> {item.title} </button>
         ))}
         </nav>
 
-        <div className="mt-4">
+        <div className="mt-4 font-light">
         {Tabs.map((tab, index) => (
         <div key={index} className={activeTab === index ? 'block' : 'hidden'}>
             {tab.content}

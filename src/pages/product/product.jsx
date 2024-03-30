@@ -8,7 +8,7 @@ import ItemCarousel from "../../components/itemCarousel/itemCarousel.jsx"
 function Product() {
     return <div className="bg-backgroundColor">
         <Header></Header>
-        <div className="my-20 mx-40">
+        <div className="my-20 lg:mx-40  sm:mx-10">
         <ProductOverView/>
         <ProductDesc/>
         <ItemCarousel
