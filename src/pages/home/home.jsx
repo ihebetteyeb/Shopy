@@ -14,13 +14,6 @@ import Header from "../../components/header/header.jsx";
 import Landing from "../../components/landing/landing.jsx";
 
 function Home() {
-  const { data } = useTestQuery();
-  const user = useAuth();
-  console.log(user);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <div>

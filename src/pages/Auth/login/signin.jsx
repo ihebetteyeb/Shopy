@@ -9,6 +9,8 @@ import SigninImg from "../../../assets/1.svg";
 // import { useTestQuery } from "../../../store/state/userApiSlice.jsx";
 import { useLoginMutation } from "../../../store/state/userApiSlice.jsx";
 import { setCredentials } from "../../../store/state/userSlice.jsx";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 import {
   IconBrandGoogle,
@@ -16,15 +18,25 @@ import {
   IconBrandLinkedin,
 } from "@tabler/icons-react";
 import { useDispatch } from "react-redux";
+import signinConfig from "./signin.config.jsx";
 
 function Home() {
   // const { data } = useTestQuery();
   const dispatch = useDispatch();
   const [login, { isLoading, data: dataLogin }] = useLoginMutation();
-  const user = useAuth();
-  const { handleSubmit, register, setValue, reset } = useForm();
+  // const user = useAuth();
 
-  console.log(user);
+  const singinSchema = z.object({
+    email: z.string().min(1, { message: "Email is required" }).email({
+      message: "Must be a valid email",
+    }),
+    password: z.string().min(1, { message: "Password is required" }),
+  });
+  const { handleSubmit, register, setValue, reset } = useForm({
+    resolver: zodResolver(singinSchema),
+  });
+
+  // console.log(user);
 
   const handleLogin = (datas) => {
     console.log(datas);
@@ -35,6 +47,7 @@ function Home() {
   useEffect(() => {
     if (dataLogin?.accessToken) {
       dispatch(setCredentials(dataLogin?.accessToken));
+      console.log(dataLogin);
     }
   }, [dataLogin]);
 
@@ -43,12 +56,19 @@ function Home() {
   }
   return (
     <div className="grid grid-cols-2 h-screen w-screen">
-      <div className="w-full flex flex-col justify-center">
-        <form autoComplete="off" onSubmit={handleSubmit(handleLogin)}>
-          <div className="flex flex-col gap-[50px] w-full ">
-            {/* <div>Logo</div> */}
-            <div className="flex flex-col items-center gap-[30px]">
-              <h1 className=" text-[48px] leading-[38px] tracking-[0.27px] font-cal-sans font-bold text-[]">
+      <div className="w-full flex flex-col">
+        <div>
+          <img
+            alt="logo"
+            src="src/assets/logo-no-background.png"
+            width="90"
+            className="mr-2 mt-2"
+          />
+        </div>
+        <div className="flex flex-col gap-[50px] w-full h-full justify-center ">
+          <form autoComplete="off" onSubmit={handleSubmit(handleLogin)}>
+            <div className="flex flex-col items-center gap-[30px] justify-center">
+              <h1 className=" text-[48px] leading-[38px] tracking-[0.27px] font-cal-sans font-bold text-[#91CD32]">
                 Sign in to Shopy
               </h1>
               <div className="flex gap-[10px]">
@@ -56,16 +76,31 @@ function Home() {
                   icon={<IconBrandMeta className="border-black" />}
                   outlined
                   rounded
+                  style={{
+                    background: "white",
+                    borderColor: "#BDBDBD",
+                    color: "#000000",
+                  }}
                 />
                 <Button
                   icon={<IconBrandGoogle className="" />}
                   outlined
                   rounded
+                  style={{
+                    background: "white",
+                    borderColor: "#BDBDBD",
+                    color: "#000000",
+                  }}
                 />
                 <Button
                   icon={<IconBrandLinkedin className="" />}
                   rounded
                   outlined
+                  style={{
+                    background: "white",
+                    borderColor: "#BDBDBD",
+                    color: "#000000",
+                  }}
                 />
               </div>
               <small className="text-gray-400">
@@ -101,12 +136,17 @@ function Home() {
                 <Button
                   type="submit"
                   label="Sign in "
-                  className="rounded-full w-[200px]"
+                  className="rounded-full w-[200px] "
+                  style={{
+                    color: "white",
+                    backgroundColor: "#91CD32",
+                    borderColor: "#91CD32",
+                  }}
                 />
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
       <div className="flex flex-col justify-center items-center gap-[30px] h-fill bg-[#DEEBFF]">
