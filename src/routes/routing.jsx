@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import routes from "./config";
+import { ProtectedRoute } from "./protectedRoute";
 
 function Routing() {
   return (
@@ -20,7 +21,17 @@ function Routing() {
           );
         }
         return (
-          <Route path={route.path} element={route.element} key={route.path} />
+          <Route
+            path={route.path}
+            element={
+              route.auth || route.public ? (
+                route.element
+              ) : (
+                <ProtectedRoute>{route.element}</ProtectedRoute>
+              )
+            }
+            key={route.path}
+          />
         );
       })}
     </Routes>

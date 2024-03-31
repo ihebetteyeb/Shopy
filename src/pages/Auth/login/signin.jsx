@@ -1,5 +1,6 @@
 // import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth.js";
 import { useForm } from "react-hook-form";
 import { Button } from "primereact/button";
@@ -21,18 +22,21 @@ import { useDispatch } from "react-redux";
 import signinConfig from "./signin.config.jsx";
 
 function Home() {
-  // const { data } = useTestQuery();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login, { isLoading, data: dataLogin }] = useLoginMutation();
-  // const user = useAuth();
 
   const singinSchema = z.object({
-    email: z.string().min(1, { message: "Email is required" }).email({
-      message: "Must be a valid email",
-    }),
-    password: z.string().min(1, { message: "Password is required" }),
+    username: z.string().min(4, { message: "* Minimum length is 4" }),
+    password: z.string().min(4, { message: "* Password minimum length is 4 " }),
   });
-  const { handleSubmit, register, setValue, reset } = useForm({
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(singinSchema),
   });
 
@@ -41,13 +45,14 @@ function Home() {
   const handleLogin = (datas) => {
     console.log(datas);
     login(datas);
-    reset();
   };
 
   useEffect(() => {
     if (dataLogin?.accessToken) {
+      console.log("i did dispatch set credentials");
       dispatch(setCredentials(dataLogin?.accessToken));
       console.log(dataLogin);
+      navigate("/home");
     }
   }, [dataLogin]);
 
@@ -115,15 +120,28 @@ function Home() {
                     {...register("username")}
                   />
                   <label htmlFor="username">Username</label>
+                  {errors.username && (
+                    <span className="block text-red-400">
+                      {errors.username.message}
+                    </span>
+                  )}
                 </span>
                 <span className="p-float-label">
                   <Password
                     id="password"
-                    onChange={(e) => setValue("password", e.target.value)}
+                    onChange={(e) => {
+                      setValue("password", e.target.value);
+                      register("password");
+                    }}
                     feedback={false}
-                    tabIndex={1}
+                    // {...register("password")}
                   />
                   <label htmlFor="password">Password</label>
+                  {errors.password && (
+                    <span className="block text-red-400">
+                      {errors.password.message}
+                    </span>
+                  )}
                 </span>
               </div>
               <div className="flex flex-col gap-[3px]">
