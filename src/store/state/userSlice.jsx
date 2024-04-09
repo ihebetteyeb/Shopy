@@ -19,6 +19,7 @@ export const userSlice = createSlice({
       state.token = null;
     },
     setToken: (state, action) => {
+      console.log(action.payload);
       state.token = action.payload;
     },
     setUser: (state, action) => {

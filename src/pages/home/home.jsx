@@ -14,7 +14,16 @@ import Header from "../../components/header/header.jsx";
 import Landing from "../../components/landing/landing.jsx";
 
 function Home() {
+  const { token, isLoading } = useAuth();
 
+
+  useEffect(() => {
+    console.log(token);
+  }, [token]);
+
+  if (isLoading) {
+    return <p> Loading...</p>;
+  }
   return (
     <div>
       <Header></Header>

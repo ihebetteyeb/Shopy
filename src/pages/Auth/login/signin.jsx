@@ -52,7 +52,6 @@ function Home() {
       console.log("i did dispatch set credentials");
       dispatch(setCredentials(dataLogin?.accessToken));
       console.log(dataLogin);
-      navigate("/home");
     }
   }, [dataLogin]);
 

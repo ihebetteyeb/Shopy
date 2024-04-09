@@ -1,11 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQuery } from "../queries";
+
 const userApiSlice = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({
-
-    baseUrl: "http://localhost:8090",
-
-  }),
+  baseQuery,
   tagTypes: ["User"],
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -13,6 +11,7 @@ const userApiSlice = createApi({
         url: "/auth/authenticate",
         method: "POST",
         body,
+        credentials: "include",
       }),
     }),
     register: builder.mutation({
@@ -29,9 +28,16 @@ const userApiSlice = createApi({
         credentials: "include",
       }),
     }),
+    refresh: builder.mutation({
+      query: () => ({
+        url: "/auth/refresh-token",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
     test: builder.query({
       query: () => ({
-        url: "/todos/1",
+        url: "/auth/testGet",
         method: "GET",
         credentials: "include",
       }),
@@ -43,6 +49,7 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
+  useRefreshMutation,
   useTestQuery,
 } = userApiSlice;
 
