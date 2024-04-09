@@ -9,13 +9,11 @@ import ItemCarousel from "../../components/itemCarousel/itemCarousel.jsx";
 import ItemCard from "../../components/itemCard/itemCard.jsx";
 // import { Button } from "primereact/button";
 import Review from "../../components/reviews/reviews.jsx";
-import Footer from "../../components/footer/footer.jsx";
-import Header from "../../components/header/header.jsx";
 import Landing from "../../components/landing/landing.jsx";
+import GlobalLayout from "../../components/Layouts/GlobalLayout.jsx";
 
-function Home() {
+function HomeLayout() {
   const { token, isLoading } = useAuth();
-
 
   useEffect(() => {
     console.log(token);
@@ -25,8 +23,7 @@ function Home() {
     return <p> Loading...</p>;
   }
   return (
-    <div>
-      <Header></Header>
+    <GlobalLayout>
       <Landing></Landing>
       <div className="pt-24">
         <ItemCarousel
@@ -72,9 +69,8 @@ function Home() {
         ></ItemCarousel>
       </div>
       <Review></Review>
-      <Footer></Footer>
-    </div>
+    </GlobalLayout>
   );
 }
 
-export default Home;
+export default HomeLayout;
