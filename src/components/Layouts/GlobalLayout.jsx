@@ -10,7 +10,7 @@ function GlobalLayout({ children }) {
       <div className="flex flex-col flex-grow justify-center w-full">
         {children}
       </div>
-      <div>
+      <div className="w-full">
         <Footer />
       </div>
     </div>

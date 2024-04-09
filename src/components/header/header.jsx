@@ -5,9 +5,12 @@ import { Avatar } from "primereact/avatar";
 import { Menu } from "primereact/menu";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../store/state/userSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { PrimeIcons } from "primereact/api";
 
 export default function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const itemRenderer = (item) => (
     <a className="flex align-items-center p-menuitem-link">
@@ -30,48 +33,10 @@ export default function Header() {
     },
     {
       label: "Groceries",
-      icon: "pi pi-search",
-      items: [
-        {
-          label: "Core",
-          icon: "pi pi-bolt",
-          shortcut: "⌘+S",
-          template: itemRenderer,
-        },
-        {
-          label: "Blocks",
-          icon: "pi pi-server",
-          shortcut: "⌘+B",
-          template: itemRenderer,
-        },
-        {
-          label: "UI Kit",
-          icon: "pi pi-pencil",
-          shortcut: "⌘+U",
-          template: itemRenderer,
-        },
-        {
-          separator: true,
-        },
-        {
-          label: "Templates",
-          icon: "pi pi-palette",
-          items: [
-            {
-              label: "Apollo",
-              icon: "pi pi-palette",
-              badge: 2,
-              template: itemRenderer,
-            },
-            {
-              label: "Ultima",
-              icon: "pi pi-palette",
-              badge: 3,
-              template: itemRenderer,
-            },
-          ],
-        },
-      ],
+      icon: PrimeIcons.SHOPPING_BAG,
+      command: () => {
+        navigate("/groceries");
+      },
     },
   ];
 

@@ -5,8 +5,9 @@ import Login from "../pages/Auth/login";
 import Register from "../pages/Auth/register";
 import Footer from "../components/footer/footer";
 import signinConfig from "../pages/Auth/login/signin.config";
+import groceriesConfig from "../pages/groceries/groceries.config";
 
-const routeConfigs = [homeConfig, signinConfig];
+const routeConfigs = [homeConfig, signinConfig, groceriesConfig];
 
 const routes = [
   ...routeConfigs,
