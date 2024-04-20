@@ -7,10 +7,15 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "../../store/state/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { PrimeIcons } from "primereact/api";
+import { useCartQuery } from "../../store/state/userApiSlice";
 
 export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { data: cartItems } = useCartQuery(2);
+  React.useEffect(() => {
+    console.log(cartItems);
+  }, [cartItems]);
 
   const itemRenderer = (item) => (
     <a className="flex align-items-center p-menuitem-link">
@@ -28,10 +33,12 @@ export default function Header() {
   );
   const items = [
     {
+      key: "home",
       label: "Home",
       icon: "pi pi-home",
     },
     {
+      key: "groceries",
       label: "Groceries",
       icon: PrimeIcons.SHOPPING_BAG,
       command: () => {
@@ -50,13 +57,16 @@ export default function Header() {
   );
   const items2 = [
     {
+      key: "profile",
       label: "Profile",
       items: [
         {
+          key: "settings",
           label: "Settings",
           icon: "pi pi-cog",
         },
         {
+          key: "logout",
           label: "Logout",
           icon: "pi pi-sign-out",
           command: () => {

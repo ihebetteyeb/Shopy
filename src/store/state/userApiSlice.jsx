@@ -35,6 +35,12 @@ const userApiSlice = createApi({
         credentials: "include",
       }),
     }),
+    cart: builder.query({
+      query: (userId) => ({
+        url: `/cart/user/${userId}`,
+        method: "GET",
+      }),
+    }),
     test: builder.query({
       query: () => ({
         url: "/auth/testGet",
@@ -50,6 +56,7 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useRefreshMutation,
+  useCartQuery,
   useTestQuery,
 } = userApiSlice;
 

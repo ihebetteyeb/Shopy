@@ -17,16 +17,20 @@ import "./groceries.css";
 import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import { Rating } from "primereact/rating";
 import { Tag } from "primereact/tag";
-import { ProductService } from "../../services/ProductService.jsx";
+
 import { Dropdown } from "primereact/dropdown";
+import { useItemsQuery } from "../../store/state/itemApiSlice.jsx";
 
 function Groceries() {
   const { token, isLoading } = useAuth();
   const [products, setProducts] = useState([]);
+  const { data, isLoading: isLoading2 } = useItemsQuery();
 
   useEffect(() => {
-    ProductService.getProducts().then((data) => setProducts(data.slice(0, 12)));
-  }, []);
+    console.log(data);
+    setProducts(data?.slice(0, 12));
+  }, [data]);
+
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState(0);
   const [sortField, setSortField] = useState("");
@@ -34,13 +38,18 @@ function Groceries() {
     { label: "Price High to Low", value: "!price" },
     { label: "Price Low to High", value: "price" },
   ];
+
   useEffect(() => {
     console.log(token);
   }, [token]);
 
-  if (isLoading) {
+    if (isLoading) {
     return <p> Loading...</p>;
   }
+  if (isLoading2) {
+    return <p> Loading...</p>;
+  }
+
 
   const items = [{ label: "Groceries" }];
   const home = { icon: "pi pi-home", url: "" };
@@ -88,9 +97,13 @@ function Groceries() {
     return gridItem(product, index);
   };
 
+  const handleCartClick = (product) => {
+    console.log(product);
+  };
+
   const gridItem = (product) => {
     return (
-      <div className="col-12 p-2" key={product.id}>
+      <div className="col-12 p-2" key={product.code}>
         <div className="p-4 border surface-border surface-card rounded">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
@@ -117,6 +130,7 @@ function Groceries() {
               icon="pi pi-shopping-cart"
               className="p-button-rounded"
               disabled={product.inventoryStatus === "OUTOFSTOCK"}
+              onClick={() => handleCartClick(product)}
             ></Button>
           </div>
         </div>
