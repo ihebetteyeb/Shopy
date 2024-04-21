@@ -8,14 +8,21 @@ import { setCredentials } from "../../store/state/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { PrimeIcons } from "primereact/api";
 import { useCartQuery } from "../../store/state/userApiSlice";
+import { Sidebar } from "primereact/sidebar";
+
+import { Card } from "primereact/card";
+import { Button } from "primereact/button";
+import SideBar from "./sideBar";
 
 export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data: cartItems } = useCartQuery(2);
+  const [visibleRight, setVisibleRight] = React.useState(false);
   React.useEffect(() => {
     console.log(cartItems);
   }, [cartItems]);
+  const [products, setProducts] = React.useState([]);
 
   const itemRenderer = (item) => (
     <a className="flex align-items-center p-menuitem-link">
@@ -86,8 +93,9 @@ export default function Header() {
       <a
         className="pi pi-shopping-cart p-overlay-badge"
         style={{ fontSize: "1.4rem" }}
+        onClick={() => setVisibleRight(true)}
       >
-        <Badge value="2" severity="success"></Badge>
+        <Badge value={cartItems?.items?.length} severity="success"></Badge>
       </a>
       <Menu
         model={items2}
@@ -105,9 +113,21 @@ export default function Header() {
     </div>
   );
 
+  
+
   return (
-    <div className="card">
-      <Menubar model={items} start={start} end={end} />
-    </div>
+    <>
+      <div className="card">
+        <Menubar model={items} start={start} end={end} />
+      </div>
+      <Sidebar
+        visible={visibleRight}
+        position="right"
+        onHide={() => setVisibleRight(false)}
+        className="h-screen "
+      >
+        <SideBar cardList={cartItems?.items} />
+      </Sidebar>
+    </>
   );
 }

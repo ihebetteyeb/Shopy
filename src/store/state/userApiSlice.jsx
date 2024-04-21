@@ -4,7 +4,7 @@ import { baseQuery } from "../queries";
 const userApiSlice = createApi({
   reducerPath: "userApi",
   baseQuery,
-  tagTypes: ["User"],
+  tagTypes: ["User", "CartItem"],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (body) => ({
@@ -39,7 +39,18 @@ const userApiSlice = createApi({
       query: (userId) => ({
         url: `/cart/user/${userId}`,
         method: "GET",
+        credentials: "include",
       }),
+      providesTags: ["CartItem"],
+    }),
+    itemCart: builder.mutation({
+      query: ({ body, userId }) => ({
+        url: `/cart/addItem/${userId}`,
+        method: "POST",
+        body: body,
+        credentials: "include",
+      }),
+      invalidatesTags: ["CartItem"],
     }),
     test: builder.query({
       query: () => ({
@@ -57,6 +68,7 @@ export const {
   useRegisterMutation,
   useRefreshMutation,
   useCartQuery,
+  useItemCartMutation,
   useTestQuery,
 } = userApiSlice;
 
