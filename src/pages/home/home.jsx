@@ -1,7 +1,7 @@
 // import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth.js";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 import { Button } from "primereact/button";
 
 import { useTestQuery } from "../../store/state/userApiSlice.jsx";
@@ -9,25 +9,21 @@ import ItemCarousel from "../../components/itemCarousel/itemCarousel.jsx";
 import ItemCard from "../../components/itemCard/itemCard.jsx";
 // import { Button } from "primereact/button";
 import Review from "../../components/reviews/reviews.jsx";
-import Footer from "../../components/footer/footer.jsx";
-import Header from "../../components/header/header.jsx";
 import Landing from "../../components/landing/landing.jsx";
+import GlobalLayout from "../../components/Layouts/GlobalLayout.jsx";
 
-function Home() {
-  const { data } = useTestQuery();
-  const user = useAuth();
-  console.log(user);
-  const { handleSubmit, register } = useForm();
-
-  const handleLogin = () => {};
+function HomeLayout() {
+  const { token, isLoading } = useAuth();
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    console.log(token);
+  }, [token]);
 
+  if (isLoading) {
+    return <p> Loading...</p>;
+  }
   return (
-    <div>
-      <Header></Header>
+    <GlobalLayout>
       <Landing></Landing>
       <div className="pt-24">
         <ItemCarousel
@@ -73,9 +69,8 @@ function Home() {
         ></ItemCarousel>
       </div>
       <Review></Review>
-      <Footer></Footer>
-    </div>
+    </GlobalLayout>
   );
 }
 
-export default Home;
+export default HomeLayout;

@@ -1,7 +1,19 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import routes from "./config";
+import { ProtectedRoute } from "./protectedRoute";
+import useAuth from "../hooks/useAuth";
 
 function Routing() {
+  const { token, isLoading } = useAuth();
+  
+  const finaleRoute = (route) => {
+    if (route.public) return route.element;
+    if (token && route.auth) {
+      return <Navigate to="/home" />;
+    }
+    return route.element;
+  };
+
   return (
     <Routes>
       {routes.map((route) => {
@@ -20,7 +32,17 @@ function Routing() {
           );
         }
         return (
-          <Route path={route.path} element={route.element} key={route.path} />
+          <Route
+            path={route.path}
+            element={
+              route.auth || route.public ? (
+                finaleRoute(route)
+              ) : (
+                <ProtectedRoute>{route.element}</ProtectedRoute>
+              )
+            }
+            key={route.path}
+          />
         );
       })}
     </Routes>
