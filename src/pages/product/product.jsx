@@ -12,7 +12,7 @@ function Product() {
         <ProductOverView/>
         <ProductDesc/>
         <ItemCarousel
-          title="Related products"
+          title="Related Products"
           indicators={false}
           navigators={true}
         ></ItemCarousel>
