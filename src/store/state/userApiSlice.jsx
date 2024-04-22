@@ -52,6 +52,14 @@ const userApiSlice = createApi({
       }),
       invalidatesTags: ["CartItem"],
     }),
+    removeItemCart: builder.mutation({
+      query: ({ userId, itemCode }) => ({
+        url: `/cart/removeItem/${userId}/${itemCode}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: ["CartItem"],
+    }),
     test: builder.query({
       query: () => ({
         url: "/auth/testGet",
@@ -69,6 +77,7 @@ export const {
   useRefreshMutation,
   useCartQuery,
   useItemCartMutation,
+  useRemoveItemCartMutation,
   useTestQuery,
 } = userApiSlice;
 
