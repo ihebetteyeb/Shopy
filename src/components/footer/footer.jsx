@@ -23,7 +23,7 @@ const Footer = () => {
                 <h2 className="mb-6 text-sm font-semibold uppercase text-white">
                   Resources
                 </h2>
-                <ul className="text-gray-500 text-gray-400 font-medium">
+                <ul className="text-gray-400 font-medium">
                   <li className="mb-4">
                     <a href="" className="hover:underline">
                       PrimeReact

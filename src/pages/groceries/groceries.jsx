@@ -22,7 +22,6 @@ import { Dropdown } from "primereact/dropdown";
 import { useItemsQuery } from "../../store/state/itemApiSlice.jsx";
 import { useItemCartMutation } from "../../store/state/userApiSlice.jsx";
 
-
 function Groceries() {
   // const { token, isLoading } = useAuth();
   const [products, setProducts] = useState([]);
@@ -40,7 +39,7 @@ function Groceries() {
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState(0);
   const [sortField, setSortField] = useState("");
-  
+
   const sortOptions = [
     { label: "Price High to Low", value: "!price" },
     { label: "Price Low to High", value: "price" },
@@ -202,7 +201,6 @@ function Groceries() {
           </div>
         </div>
       </div>
-     
       ;
     </GlobalLayout>
   );
