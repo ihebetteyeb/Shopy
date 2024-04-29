@@ -1,24 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
-import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
-import { ProgressBar } from "primereact/progressbar";
 import { Calendar } from "primereact/calendar";
-import { MultiSelect } from "primereact/multiselect";
-import { Slider } from "primereact/slider";
-import { Tag } from "primereact/tag";
+import { Dialog } from "primereact/dialog";
+import { classNames } from "primereact/utils";
+import { Toast } from "primereact/toast";
 import { CustomerService } from "../../services/CustomerService";
 
 export default function Users() {
-  const [customers, setCustomers] = useState([]);
-  const [selectedCustomers, setSelectedCustomers] = useState([]);
+  let emptyUser = {
+    id: null,
+    first_name: "",
+    last_name: "",
+    email: "",
+    address: "",
+    country: { name: "" },
+  };
+
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(emptyUser);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [userDialog, setUserDialog] = useState(false);
+  const [deleteUserDialog, setDeleteUserDialog] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const toast = useRef(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: {
+    first_name: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    last_name: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
@@ -26,64 +41,20 @@ export default function Users() {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
-    representative: { value: null, matchMode: FilterMatchMode.IN },
     date: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
     },
-    balance: {
+    address: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
-    status: {
-      operator: FilterOperator.OR,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-    },
-    activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
   });
   const [globalFilterValue, setGlobalFilterValue] = useState("");
-  const [representatives] = useState([
-    { name: "Amy Elsner", image: "amyelsner.png" },
-    { name: "Anna Fali", image: "annafali.png" },
-    { name: "Asiya Javayant", image: "asiyajavayant.png" },
-    { name: "Bernardo Dominic", image: "bernardodominic.png" },
-    { name: "Elwin Sharvill", image: "elwinsharvill.png" },
-    { name: "Ioni Bowcher", image: "ionibowcher.png" },
-    { name: "Ivan Magalhaes", image: "ivanmagalhaes.png" },
-    { name: "Onyama Limba", image: "onyamalimba.png" },
-    { name: "Stephen Shaw", image: "stephenshaw.png" },
-    { name: "XuXue Feng", image: "xuxuefeng.png" },
-  ]);
-  const [statuses] = useState([
-    "unqualified",
-    "qualified",
-    "new",
-    "negotiation",
-    "renewal",
-  ]);
-
-  const getSeverity = (status) => {
-    switch (status) {
-      case "unqualified":
-        return "danger";
-
-      case "qualified":
-        return "success";
-
-      case "new":
-        return "info";
-
-      case "negotiation":
-        return "warning";
-
-      case "renewal":
-        return null;
-    }
-  };
 
   useEffect(() => {
     CustomerService.getCustomersLarge().then((data) =>
-      setCustomers(getCustomers(data))
+      setUsers(getCustomers(data))
     );
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -100,13 +71,6 @@ export default function Users() {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
-    });
-  };
-
-  const formatCurrency = (value) => {
-    return value.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
     });
   };
 
@@ -145,52 +109,9 @@ export default function Users() {
           className={`flag flag-${rowData.country.code}`}
           style={{ width: "24px" }}
         />
+
         <span>{rowData.country.name}</span>
-      </div>
-    );
-  };
-
-  const representativeBodyTemplate = (rowData) => {
-    const representative = rowData.representative;
-
-    return (
-      <div className="flex align-items-center gap-2">
-        <img
-          alt={representative.name}
-          src={`https://primefaces.org/cdn/primereact/images/avatar/${representative.image}`}
-          width="32"
-        />
-        <span>{representative.name}</span>
-      </div>
-    );
-  };
-
-  const representativeFilterTemplate = (options) => {
-    return (
-      <React.Fragment>
-        <div className="mb-3 font-bold">Agent Picker</div>
-        <MultiSelect
-          value={options.value}
-          options={representatives}
-          itemTemplate={representativesItemTemplate}
-          onChange={(e) => options.filterCallback(e.value)}
-          optionLabel="name"
-          placeholder="Any"
-          className="p-column-filter"
-        />
-      </React.Fragment>
-    );
-  };
-
-  const representativesItemTemplate = (option) => {
-    return (
-      <div className="flex align-items-center gap-2">
-        <img
-          alt={option.name}
-          src={`https://primefaces.org/cdn/primereact/images/avatar/${option.image}`}
-          width="32"
-        />
-        <span>{option.name}</span>
+        <span>{rowData.country.code}</span>
       </div>
     );
   };
@@ -211,100 +132,182 @@ export default function Users() {
     );
   };
 
-  const balanceBodyTemplate = (rowData) => {
-    return formatCurrency(rowData.balance);
+  const hideDialog = () => {
+    setSubmitted(false);
+    setUserDialog(false);
   };
 
-  const balanceFilterTemplate = (options) => {
-    return (
-      <InputNumber
-        value={options.value}
-        onChange={(e) => options.filterCallback(e.value, options.index)}
-        mode="currency"
-        currency="USD"
-        locale="en-US"
+  const saveUser = () => {
+    setSubmitted(true);
+
+    if (
+      user.first_name.trim() &&
+      user.last_name.trim() &&
+      user.address.trim() &&
+      user.email.trim()
+    ) {
+      let _users = [...users];
+      let _user = { ...user };
+      console.log(_user);
+
+      if (user.id) {
+        const index = _users.findIndex((u) => u.id === user.id);
+        _users[index] = _user;
+        //updateUser({ body: _user, id: user.id });  // Assuming updateUser is an API call or similar function
+
+        toast.current.show({
+          severity: "success",
+          summary: "Successful",
+          detail: "User Updated",
+          life: 3000,
+        });
+      } else {
+        _user.id = createId(); // Assuming createId generates a unique identifier for a new user
+        console.log("New user", _user);
+        _users.push(_user);
+        //addUser({ body: _user }); // Assuming addUser is an API call or similar function
+
+        toast.current.show({
+          severity: "success",
+          summary: "Successful",
+          detail: "User Created",
+          life: 3000,
+        });
+      }
+      setUsers(_users);
+      setUserDialog(false);
+      setUser(emptyUser);
+    }
+  };
+  const deleteUser = () => {
+    let _users = users.filter((val) => val.id !== user.id);
+    setUsers(_users);
+
+    setSelectedUsers(selectedUsers.filter((val) => val.id !== user.id));
+
+    //deleteUser({ id: selectedUser.id }); to add later after splice
+    setDeleteUserDialog(false);
+
+    setUser(emptyUser);
+    toast.current.show({
+      severity: "success",
+      summary: "Successful",
+      detail: "User Deleted",
+      life: 3000,
+    });
+  };
+
+  const confirmDeleteUser = (user) => {
+    setUser(user);
+    setDeleteUserDialog(true);
+  };
+
+  const hideDeleteUserDialog = () => {
+    setDeleteUserDialog(false);
+  };
+
+  const onInputChange = (e, name) => {
+    const val = (e.target && e.target.value) || "";
+    let _user = { ...user };
+
+    _user[`${name}`] = val;
+
+    setUser(_user);
+  };
+
+  const userDialogFooter = (
+    <React.Fragment>
+      <Button
+        label="Cancel"
+        icon="pi pi-times"
+        className="p-button-text"
+        onClick={hideDialog}
       />
-    );
-  };
-
-  const statusBodyTemplate = (rowData) => {
-    return (
-      <Tag value={rowData.status} severity={getSeverity(rowData.status)} />
-    );
-  };
-
-  const statusFilterTemplate = (options) => {
-    return (
-      <Dropdown
-        value={options.value}
-        options={statuses}
-        onChange={(e) => options.filterCallback(e.value, options.index)}
-        itemTemplate={statusItemTemplate}
-        placeholder="Select One"
-        className="p-column-filter"
-        showClear
+      <Button
+        label="Save"
+        icon="pi pi-check"
+        className="p-button-text"
+        onClick={saveUser}
       />
-    );
-  };
+    </React.Fragment>
+  );
+  const deleteUserDialogFooter = (
+    <React.Fragment>
+      <Button
+        label="No"
+        icon="pi pi-times"
+        outlined
+        onClick={hideDeleteUserDialog}
+      />
+      <Button
+        label="Yes"
+        icon="pi pi-check"
+        severity="danger"
+        onClick={deleteUser}
+      />
+    </React.Fragment>
+  );
 
-  const statusItemTemplate = (option) => {
-    return <Tag value={option} severity={getSeverity(option)} />;
+  const editUser = (user) => {
+    setUser({ ...user });
+    setUserDialog(true);
   };
-
-  const activityBodyTemplate = (rowData) => {
+  const actionBodyTemplate = (rowData) => {
     return (
-      <ProgressBar
-        value={rowData.activity}
-        showValue={false}
-        style={{ height: "6px" }}
-      ></ProgressBar>
+      <React.Fragment>
+        <Button
+          icon="pi pi-pencil"
+          rounded
+          outlined
+          className="mr-2"
+          onClick={() => editUser(rowData)}
+          style={{
+            color: "blue",
+            backgroundColor: "transparent",
+            borderColor: "blue",
+            marginRight: "8px",
+          }}
+        />
+        <Button
+          icon="pi pi-trash"
+          rounded
+          outlined
+          severity="danger"
+          onClick={() => confirmDeleteUser(rowData)}
+          style={{
+            color: "red",
+            backgroundColor: "transparent",
+            borderColor: "red",
+          }}
+        />
+      </React.Fragment>
     );
-  };
-
-  const activityFilterTemplate = (options) => {
-    return (
-      <>
-        <Slider
-          value={options.value}
-          onChange={(e) => options.filterCallback(e.value)}
-          range
-          className="m-3"
-        ></Slider>
-        <div className="flex align-items-center justify-content-between px-2">
-          <span>{options.value ? options.value[0] : 0}</span>
-          <span>{options.value ? options.value[1] : 100}</span>
-        </div>
-      </>
-    );
-  };
-
-  const actionBodyTemplate = () => {
-    return <Button type="button" icon="pi pi-cog" rounded></Button>;
   };
 
   const header = renderHeader();
 
   return (
-    <div className="card">
+    <div>
+      <Toast ref={toast} />
       <DataTable
-        value={customers}
+        value={users}
         paginator
         header={header}
         rows={10}
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         rowsPerPageOptions={[10, 25, 50]}
         dataKey="id"
-        selectionMode="checkbox"
-        selection={selectedCustomers}
-        onSelectionChange={(e) => setSelectedCustomers(e.value)}
+        selection={selectedUsers}
+        onSelectionChange={(e) => setSelectedUsers(e.value)}
         filters={filters}
         filterDisplay="menu"
         globalFilterFields={[
-          "name",
+          "first_name",
+          "last_name",
           "country.name",
-          "representative.name",
-          "balance",
-          "status",
+          "address",
+          "date",
+          "email",
         ]}
         emptyMessage="No customers found."
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -313,83 +316,162 @@ export default function Users() {
           selectionMode="multiple"
           headerStyle={{ width: "3rem" }}
         ></Column>
+        <Column field="id" header="id" sortable />
         <Column
-          field="name"
-          header="Name"
+          field="first_name"
+          header="first Name"
           sortable
           filter
-          filterPlaceholder="Search by name"
-          style={{ minWidth: "14rem" }}
+          filterPlaceholder="Search by first name"
+        />
+        <Column
+          field="last_name"
+          header="last Name"
+          sortable
+          filter
+          filterPlaceholder="Search by last name"
         />
         <Column
           field="country.name"
           header="Country"
           sortable
           filterField="country.name"
-          style={{ minWidth: "14rem" }}
           body={countryBodyTemplate}
           filter
           filterPlaceholder="Search by country"
         />
         <Column
-          header="Agent"
+          field="address"
+          header="address"
           sortable
-          sortField="representative.name"
-          filterField="representative"
-          showFilterMatchModes={false}
-          filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "14rem" }}
-          body={representativeBodyTemplate}
           filter
-          filterElement={representativeFilterTemplate}
+          filterPlaceholder="Search by address"
         />
         <Column
-          field="date"
-          header="Date"
+          field="email"
+          header="email"
           sortable
           filterField="date"
           dataType="date"
-          style={{ minWidth: "12rem" }}
+          filter
+        />
+        <Column
+          field="date"
+          header="inscription date"
+          sortable
+          filterField="date"
+          dataType="date"
           body={dateBodyTemplate}
           filter
           filterElement={dateFilterTemplate}
         />
         <Column
-          field="balance"
-          header="Balance"
-          sortable
-          dataType="numeric"
-          style={{ minWidth: "12rem" }}
-          body={balanceBodyTemplate}
-          filter
-          filterElement={balanceFilterTemplate}
-        />
-        <Column
-          field="status"
-          header="Status"
-          sortable
-          filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "12rem" }}
-          body={statusBodyTemplate}
-          filter
-          filterElement={statusFilterTemplate}
-        />
-        <Column
-          field="activity"
-          header="Activity"
-          sortable
-          showFilterMatchModes={false}
-          style={{ minWidth: "12rem" }}
-          body={activityBodyTemplate}
-          filter
-          filterElement={activityFilterTemplate}
-        />
-        <Column
-          headerStyle={{ width: "5rem", textAlign: "center" }}
+          headerStyle={{ width: "10rem", textAlign: "center" }}
           bodyStyle={{ textAlign: "center", overflow: "visible" }}
           body={actionBodyTemplate}
         />
       </DataTable>
+
+      <Dialog
+        visible={userDialog}
+        style={{ width: "32rem" }}
+        breakpoints={{ "960px": "75vw", "641px": "90vw" }}
+        header="User Details"
+        modal
+        className="p-fluid"
+        footer={userDialogFooter}
+        onHide={hideDialog}
+      >
+        <div className="field">
+          <label htmlFor="id" className="font-bold">
+            id
+          </label>
+          <InputText id="id" value={user.id} readOnly />
+        </div>
+        <div className="field">
+          <label htmlFor="firstName" className="font-bold">
+            First Name
+          </label>
+          <InputText
+            id="firstName"
+            value={user.first_name}
+            onChange={(e) => onInputChange(e, "first_name")}
+            required
+            autoFocus
+            className={classNames({
+              "p-invalid": submitted && !user.first_name,
+            })}
+          />
+          {submitted && !user.first_name && (
+            <small className="p-error">First name is required.</small>
+          )}
+        </div>
+
+        <div className="field">
+          <label htmlFor="lastName" className="font-bold">
+            Last Name
+          </label>
+          <InputText
+            id="lastName"
+            value={user.last_name}
+            onChange={(e) => onInputChange(e, "last_name")}
+            required
+          />
+        </div>
+
+        <div className="field">
+          <label htmlFor="email" className="font-bold">
+            Email
+          </label>
+          <InputText
+            id="email"
+            value={user.email}
+            onChange={(e) => onInputChange(e, "email")}
+            required
+          />
+        </div>
+
+        <div className="field">
+          <label htmlFor="address" className="font-bold">
+            Address
+          </label>
+          <InputText
+            id="address"
+            value={user.address}
+            onChange={(e) => onInputChange(e, "address")}
+          />
+        </div>
+
+        <div className="field">
+          <label htmlFor="country" className="font-bold">
+            Country
+          </label>
+          <InputText id="country" value={user.country.name} readOnly />
+        </div>
+      </Dialog>
+
+      <Dialog
+        visible={deleteUserDialog}
+        style={{ width: "32rem" }}
+        breakpoints={{ "960px": "75vw", "641px": "90vw" }}
+        header="Confirm"
+        modal
+        footer={deleteUserDialogFooter}
+        onHide={hideDeleteUserDialog}
+      >
+        <div className="confirmation-content">
+          <i
+            className="pi pi-exclamation-triangle mr-3"
+            style={{ fontSize: "2rem" }}
+          />
+          {user && (
+            <span>
+              Are you sure you want to delete{" "}
+              <b>{[user.id, user.first_name, user.last_name]}</b>?
+            </span>
+          )}
+        </div>
+      </Dialog>
     </div>
   );
 }

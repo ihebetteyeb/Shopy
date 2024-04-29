@@ -88,7 +88,6 @@ export default function Products() {
     if (product.name.trim()) {
       let _products = [...products];
       let _product = { ...product };
-      console.log("9BAL MAZEDNA", _products);
       console.log(_product);
 
       if (product.code) {
@@ -115,9 +114,7 @@ export default function Products() {
           life: 3000,
         });
       }
-      console.log("BAAD MAZEDNA", _products);
       setProducts(_products);
-      console.log("WE ARRIVED HERE");
       setProductDialog(false);
       setProduct(emptyProduct);
     }
