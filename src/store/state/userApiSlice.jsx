@@ -35,6 +35,32 @@ const userApiSlice = createApi({
         credentials: "include",
       }),
     }),
+
+    getUsers: builder.query({
+      query: () => ({
+        url: "/user/getUsers",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+
+    deleteUser: builder.mutation({
+      query: ({ userId }) => ({
+        url: `/user/deleteUser/${userId}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+    }),
+
+    editUser: builder.mutation({
+      query: ({ body, userId }) => ({
+        url: `/user/updateUser/${userId}`,
+        method: "PUT",
+        body: body,
+        credentials: "include",
+      }),
+    }),
+
     cart: builder.query({
       query: (userId) => ({
         url: `/cart/user/${userId}`,
@@ -75,6 +101,9 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useRefreshMutation,
+  useGetUsersQuery,
+  useDeleteUserMutation,
+  useEditUserMutation,
   useCartQuery,
   useItemCartMutation,
   useRemoveItemCartMutation,
