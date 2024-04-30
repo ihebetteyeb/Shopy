@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { classNames } from "primereact/utils";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { ProductService } from "../../services/ProductService";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { FileUpload } from "primereact/fileupload";
@@ -20,7 +19,6 @@ import {
   useDeleteItemMutation,
   useAddItemMutation,
 } from "../../store/state/itemApiSlice";
-import useAuth from "../../hooks/useAuth";
 
 export default function Products() {
   let emptyProduct = {

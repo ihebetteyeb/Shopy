@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../header/header";
 import SideBar from "../sideBar/sideBar";
-
+import { Card } from "primereact/card";
 function DashboardLayout({ children, changeChildren }) {
   return (
     <div>
@@ -10,7 +10,9 @@ function DashboardLayout({ children, changeChildren }) {
         <div className="col-span-1">
           <SideBar changeChildren={changeChildren}></SideBar>
         </div>
-        <div className="col-span-4">{children}</div>
+        <div className="col-span-4">
+          <Card>{children}</Card>
+        </div>
       </div>
     </div>
   );
