@@ -9,15 +9,21 @@ import { Dialog } from "primereact/dialog";
 import { classNames } from "primereact/utils";
 import { Toast } from "primereact/toast";
 import { CustomerService } from "../../services/CustomerService";
+import {
+  useGetUsersQuery,
+  useEditUserMutation,
+  useDeleteUserMutation,
+} from "../../store/state/userApiSlice.jsx";
 
 export default function Users() {
   let emptyUser = {
     id: null,
-    first_name: "",
-    last_name: "",
+    name: "",
+    username: "",
     email: "",
     address: "",
-    country: { name: "" },
+    country: "",
+    date: "",
   };
 
   const [users, setUsers] = useState([]);
@@ -26,18 +32,23 @@ export default function Users() {
   const [userDialog, setUserDialog] = useState(false);
   const [deleteUserDialog, setDeleteUserDialog] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const { data, isLoading } = useGetUsersQuery();
+  const [deleteUserMutation, { delUserError, delSuccess, delLoading }] =
+    useDeleteUserMutation();
+  const [updateUser, { editError, editSuccess, editLoading }] =
+    useEditUserMutation();
   const toast = useRef(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    first_name: {
+    name: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
-    last_name: {
+    username: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
-    "country.name": {
+    country: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
@@ -53,17 +64,14 @@ export default function Users() {
   const [globalFilterValue, setGlobalFilterValue] = useState("");
 
   useEffect(() => {
-    CustomerService.getCustomersLarge().then((data) =>
-      setUsers(getCustomers(data))
-    );
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    setUsers(getUsers(data));
+  }, [data]);
 
-  const getCustomers = (data) => {
-    return [...(data || [])].map((d) => {
-      d.date = new Date(d.date);
-
-      return d;
-    });
+  const getUsers = (data) => {
+    return (data || []).map((d) => ({
+      ...d,
+      date: new Date(d.date),
+    }));
   };
 
   const formatDate = (value) => {
@@ -103,15 +111,14 @@ export default function Users() {
   const countryBodyTemplate = (rowData) => {
     return (
       <div className="flex align-items-center gap-2">
-        <img
+        {/* <img
           alt="flag"
           src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png"
-          className={`flag flag-${rowData.country.code}`}
+          className={`flag flag-${countries[rowData.country].code}`}
           style={{ width: "24px" }}
-        />
+        /> */}
 
-        <span>{rowData.country.name}</span>
-        <span>{rowData.country.code}</span>
+        <span>{rowData.country}</span>
       </div>
     );
   };
@@ -141,8 +148,8 @@ export default function Users() {
     setSubmitted(true);
 
     if (
-      user.first_name.trim() &&
-      user.last_name.trim() &&
+      user.name.trim() &&
+      user.username.trim() &&
       user.address.trim() &&
       user.email.trim()
     ) {
@@ -153,7 +160,8 @@ export default function Users() {
       if (user.id) {
         const index = _users.findIndex((u) => u.id === user.id);
         _users[index] = _user;
-        //updateUser({ body: _user, id: user.id });  // Assuming updateUser is an API call or similar function
+        console.log("Updated user", user.id);
+        updateUser({ body: _user, userId: user.id }); // Assuming updateUser is an API call or similar function
 
         toast.current.show({
           severity: "success",
@@ -162,7 +170,7 @@ export default function Users() {
           life: 3000,
         });
       } else {
-        _user.id = createId(); // Assuming createId generates a unique identifier for a new user
+        //_user.id = createId(); // Assuming createId generates a unique identifier for a new user
         console.log("New user", _user);
         _users.push(_user);
         //addUser({ body: _user }); // Assuming addUser is an API call or similar function
@@ -184,8 +192,8 @@ export default function Users() {
     setUsers(_users);
 
     setSelectedUsers(selectedUsers.filter((val) => val.id !== user.id));
-
-    //deleteUser({ id: selectedUser.id }); to add later after splice
+    console.log(user.id);
+    deleteUserMutation({ userId: user.id });
     setDeleteUserDialog(false);
 
     setUser(emptyUser);
@@ -302,9 +310,10 @@ export default function Users() {
         filters={filters}
         filterDisplay="menu"
         globalFilterFields={[
-          "first_name",
-          "last_name",
-          "country.name",
+          "id",
+          "name",
+          "username",
+          "country",
           "address",
           "date",
           "email",
@@ -318,24 +327,24 @@ export default function Users() {
         ></Column>
         <Column field="id" header="id" sortable />
         <Column
-          field="first_name"
-          header="first Name"
+          field="name"
+          header="Name"
           sortable
           filter
-          filterPlaceholder="Search by first name"
+          filterPlaceholder="Search by name"
         />
         <Column
-          field="last_name"
-          header="last Name"
+          field="username"
+          header="Username"
           sortable
           filter
-          filterPlaceholder="Search by last name"
+          filterPlaceholder="Search by username"
         />
         <Column
-          field="country.name"
+          field="country"
           header="Country"
           sortable
-          filterField="country.name"
+          filterField="country"
           body={countryBodyTemplate}
           filter
           filterPlaceholder="Search by country"
@@ -389,32 +398,32 @@ export default function Users() {
           <InputText id="id" value={user.id} readOnly />
         </div>
         <div className="field">
-          <label htmlFor="firstName" className="font-bold">
-            First Name
+          <label htmlFor="name" className="font-bold">
+            Name
           </label>
           <InputText
-            id="firstName"
-            value={user.first_name}
-            onChange={(e) => onInputChange(e, "first_name")}
+            id="name"
+            value={user.name}
+            onChange={(e) => onInputChange(e, "name")}
             required
             autoFocus
             className={classNames({
-              "p-invalid": submitted && !user.first_name,
+              "p-invalid": submitted && !user.name,
             })}
           />
-          {submitted && !user.first_name && (
-            <small className="p-error">First name is required.</small>
+          {submitted && !user.name && (
+            <small className="p-error">Name is required.</small>
           )}
         </div>
 
         <div className="field">
-          <label htmlFor="lastName" className="font-bold">
-            Last Name
+          <label htmlFor="username" className="font-bold">
+            Username
           </label>
           <InputText
-            id="lastName"
-            value={user.last_name}
-            onChange={(e) => onInputChange(e, "last_name")}
+            id="username"
+            value={user.username}
+            onChange={(e) => onInputChange(e, "username")}
             required
           />
         </div>
@@ -446,7 +455,7 @@ export default function Users() {
           <label htmlFor="country" className="font-bold">
             Country
           </label>
-          <InputText id="country" value={user.country.name} readOnly />
+          <InputText id="country" value={user.country} readOnly />
         </div>
       </Dialog>
 
@@ -466,8 +475,8 @@ export default function Users() {
           />
           {user && (
             <span>
-              Are you sure you want to delete{" "}
-              <b>{[user.id, user.first_name, user.last_name]}</b>?
+              Are you sure you want to delete user <b>{user.name}</b> (ID:{" "}
+              {user.id}, Username: {user.username}) ?
             </span>
           )}
         </div>

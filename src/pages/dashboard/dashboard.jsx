@@ -15,10 +15,26 @@ const Dashboard = () => {
       case "dash":
         return (
           <div className="grid grid-cols-4 gap-5 w-full">
-            <CardStats title={"Orders"} logo={"shopping-cart"}></CardStats>
-            <CardStats title={"Revenue"} logo={"dollar"}></CardStats>
-            <CardStats title={"Customers"} logo={"users"}></CardStats>
-            <CardStats title={"Comments"} logo={"inbox"}></CardStats>
+            <CardStats
+              title={"Orders"}
+              logo={"shopping-cart"}
+              value={500}
+            ></CardStats>
+            <CardStats
+              title={"Revenue"}
+              logo={"dollar"}
+              value={500}
+            ></CardStats>
+            <CardStats
+              title={"Customers"}
+              logo={"users"}
+              value={500}
+            ></CardStats>
+            <CardStats
+              title={"Comments"}
+              logo={"inbox"}
+              value={500}
+            ></CardStats>
             <div className="col-span-2">
               <ItemList></ItemList>
             </div>

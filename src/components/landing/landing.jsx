@@ -18,19 +18,16 @@ const Landing = () => {
         <div className="flex items-center justify-center w-full lg:w-1/2">
           <div className="max-w-2xl mb-8">
             <div className="flex justify-center ">
-              <h1 className="text-4xl font-bold">
-                Join The Organic Movement !
-              </h1>
+              <h1 className="text-4xl font-bold">Join the fashion up move !</h1>
             </div>
             <p className="py-5 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-gray-300">
-              rem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
-              tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+              We offer a wide range of products from clothing to accessories.
             </p>
 
             <div className="flex justify-center space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row">
               <a
                 href=""
-                className="px-8 py-4 text-lg font-medium text-center text-white bg-lime-700 rounded-md "
+                className="px-8 py-4 text-lg font-medium text-center text-white bg-blue-400 rounded-md "
               >
                 <div
                   className="pi pi-shopping-cart pr-2 text-white"
@@ -48,7 +45,7 @@ const Landing = () => {
           <div className="col-span-1 bg-slate-700 p-8">
             <a className="text-2xl font-medium ">
               <div
-                className="pi pi-car pr-2 text-lime-300"
+                className="pi pi-car pr-2 text-blue-300"
                 style={{ fontSize: "2rem" }}
               />
               Free Shipping{" "}
@@ -58,27 +55,27 @@ const Landing = () => {
           <div className="col-span-1 bg-slate-700 p-8">
             <a className="text-2xl font-medium">
               <div
-                className="pi pi-book pr-2 text-lime-300 text-nowrap"
+                className="pi pi-book pr-2 text-blue-300 text-nowrap"
                 style={{ fontSize: "2rem" }}
               />
-              Certified Organic
+              Certified products
             </a>
             <p>100% Guarantee</p>
           </div>
           <div className="col-span-1 bg-slate-700 p-8">
             <a className="text-2xl font-medium">
               <div
-                className="pi pi-money-bill pr-2  text-lime-300"
+                className="pi pi-money-bill pr-2  text-blue-300"
                 style={{ fontSize: "2rem" }}
               />
-              Huge Savings{" "}
+              Huge Savings
             </a>
             <p>At Lowest Price</p>
           </div>
           <div className="col-span-1 bg-slate-700 p-8">
             <a className="text-2xl font-medium">
               <div
-                className="pi pi-replay pr-2  text-lime-300"
+                className="pi pi-replay pr-2  text-blue-300"
                 style={{ fontSize: "2rem" }}
               />
               Easy Returns

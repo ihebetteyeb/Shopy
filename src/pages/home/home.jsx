@@ -33,7 +33,7 @@ function HomeLayout() {
       </div>
       <div className="pt-24">
         <div className="relative flex justify-center bg-zinc-50">
-          <div className="flex justify-center absolute -top-10">
+          <div className="flex justify-center absolute -top-36">
             <img src="src/assets/basil-leaf.png" />
           </div>
           <div className="pt-10">

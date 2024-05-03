@@ -22,6 +22,9 @@ module.exports = {
         "100%": "100%",
         16: "4rem",
       },
+      colors: {
+        backgroundColor: '#F8F6F3', 
+      },
     },
   },
   plugins: [],

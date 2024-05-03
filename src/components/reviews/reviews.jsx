@@ -17,11 +17,23 @@ export default function Review() {
     <>
       <div className="flex justify-center items-center">
         <Avatar
-          image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
+          image="https://primefaces.org/cdn/primevue/images/avatar/onyamalimba.png"
           size="large"
           shape="circle"
         />
         <p className="pl-2">Iheb etteyeb</p>
+      </div>
+    </>
+  );
+  const footer1 = (
+    <>
+      <div className="flex justify-center items-center">
+        <Avatar
+          image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
+          size="large"
+          shape="circle"
+        />
+        <p className="pl-2">Salma Nebli</p>
       </div>
     </>
   );
@@ -39,15 +51,14 @@ export default function Review() {
             className="flex pb-10 justify-center"
           />
           <p className="pb-5">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit consectetur
-            adipisicing elit.
+            Good quality, fast delivery, I recommend this website.
           </p>
         </Card>
-        <Card title="Farm Fresh Fruits" footer={footer} id="ads">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        <Card title="Brand new Fashion" footer={footer} id="ads">
+          <p>We bring the last fashion for you.</p>
         </Card>
 
-        <Card footer={footer2}>
+        <Card footer={footer1}>
           <Rating
             value={4}
             readOnly
@@ -55,8 +66,7 @@ export default function Review() {
             className="flex pb-10 justify-center"
           />
           <p className="pb-5">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit consectetur
-            adipisicing elit.
+            a very good website, I recommend it to everyone.
           </p>
         </Card>
       </div>

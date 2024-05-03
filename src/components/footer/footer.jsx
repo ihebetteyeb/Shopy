@@ -9,12 +9,12 @@ const Footer = () => {
             <div className="mb-6 md:mb-0">
               <a href="" className="flex items-center">
                 <img
-                  src="src/assets/organic-store-white-logo.png"
+                  src="src/assets/logo-no-background.png"
                   className="h-8 me-3"
                   alt="Logo"
                 />
                 <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
-                  Organic Store
+                  e-shop
                 </span>
               </a>
             </div>
@@ -83,7 +83,7 @@ const Footer = () => {
             <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
               © 2023{" "}
               <a href="" className="hover:underline">
-                Flowbite™
+                isi Ariana
               </a>
               . All Rights Reserved.
             </span>

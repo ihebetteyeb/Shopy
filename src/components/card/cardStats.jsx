@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
-export default function CardStats({ title, logo }) {
+export default function CardStats({ title, logo, value }) {
   return (
     <Card className="h-32 flex flex-col justify-center">
       <div className="w-full">
@@ -18,11 +18,7 @@ export default function CardStats({ title, logo }) {
             }}
           />
         </div>
-        <p className="pb-1">152</p>
-        <p>
-          <span className=" text-green-500 text-sm">24</span> new since last
-          visit
-        </p>
+        <p className="pb-1">{value}</p>
       </div>
     </Card>
   );

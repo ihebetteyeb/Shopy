@@ -19,6 +19,9 @@ export default function Header({ order, setOrder }) {
       key: "home",
       label: "Home",
       icon: "pi pi-home",
+      command: () => {
+        navigate("/home");
+      },
     },
     {
       key: "groceries",
@@ -34,7 +37,7 @@ export default function Header({ order, setOrder }) {
     <img
       alt="logo"
       src="src/assets/logo-no-background.png"
-      width="90"
+      width="60"
       className="mr-2"
     ></img>
   );
@@ -63,7 +66,7 @@ export default function Header({ order, setOrder }) {
   const menuRight = React.useRef(null);
   const end = (
     <div className="flex justify-center items-center gap-6">
-      <a>About</a>
+      <a className="">About</a>
 
       <a>Contact</a>
       <a
@@ -71,7 +74,9 @@ export default function Header({ order, setOrder }) {
         style={{ fontSize: "1.4rem" }}
         onClick={() => setVisibleRight(true)}
       >
+
         <Badge value={order.cartItems?.length} severity="success"></Badge>
+
       </a>
       <Menu
         model={items2}

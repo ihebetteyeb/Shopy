@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "primereact/button";
+import { useNavigate } from "react-router-dom";
 import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
@@ -20,11 +21,13 @@ export default function DataViewer({ orderId, setOrder }) {
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState(0);
   const [sortField, setSortField] = useState("");
+
   const [updateOrder] = useUpdateOrderMutation();
   const [searchFilter, setSearchFilter] = useState({
     term: undefined,
     range: [0, 200],
   });
+  
   //search for max price and set it as the max value for the slider
   const { data } = useItemsQuery();
 
@@ -146,10 +149,12 @@ export default function DataViewer({ orderId, setOrder }) {
           )}
         >
           <img
-            className=" w-24 lg:w-40 block xl:block mx-auto"
+            className="w-24 lg:w-40 block xl:block mx-auto"
             src={`https://primefaces.org/cdn/primereact/images/product/${product.image}`}
             alt={product.name}
+            onClick={() => navigate("/product", { state: { product } })}
           />
+
           <div className="flex flex-col sm:flex-row justify-between items-center xl:items-start flex-1 gap-4">
             <div className="flex flex-col items-center sm:items-start gap-3">
               <div className="text-xl font-bold">{product.name}</div>
@@ -195,9 +200,10 @@ export default function DataViewer({ orderId, setOrder }) {
           </div>
           <div className="flex flex-col items-center gap-3 py-5">
             <img
-              className="shadow-lg rounded"
+              className="w-24 lg:w-40 block xl:block mx-auto"
               src={`https://primefaces.org/cdn/primereact/images/product/${product.image}`}
               alt={product.name}
+              onClick={() => navigate("/product", { state: { product } })}
             />
             <div className="text-xl font-bold">{product.name}</div>
             <Rating value={product.rating} readOnly cancel={false}></Rating>
@@ -231,7 +237,7 @@ export default function DataViewer({ orderId, setOrder }) {
   };
 
   const listTemplate = (products, layout) => {
-    if (products.length === 0)
+    if (products?.length === 0)
       return (
         <div className="flex justify-center text-2xl font-bold pt-10">
           No item found
@@ -239,7 +245,9 @@ export default function DataViewer({ orderId, setOrder }) {
       );
     return (
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 gap-3">
-        {products.map((product, index) => itemTemplate(product, layout, index))}
+        {products?.map((product, index) =>
+          itemTemplate(product, layout, index)
+        )}
       </div>
     );
   };
@@ -312,7 +320,7 @@ export default function DataViewer({ orderId, setOrder }) {
           header={header()}
           sortField={sortField}
           sortOrder={sortOrder}
-          paginator={filteredItems.length}
+          paginator={filteredItems?.length}
           emptyMessage={true}
           rows={8}
         />
