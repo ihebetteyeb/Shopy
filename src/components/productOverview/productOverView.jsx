@@ -1,41 +1,50 @@
-import React, { useEffect } from "react";
 
-const ProductOverView = ({ product }) => {
-  useEffect(() => {}, [product]);
+import React from "react";
+import { useLocation } from "react-router-dom";
+const ProductOverView = () => {
+  const location = useLocation();
+  const item = location?.state?.product;
+
   return (
-    <div className="md:flex items-start justify-center my-10">
+    <div className="md:flex items-start justify-center content-between my-10">
+      <button
+        className="pi pi-arrow-left pr-10"
+        style={{ fontSize: "2rem" }}
+        onClick={() => window.history.back()}
+      ></button>
       <img
-        className="object-cover"
+        class="object-cover"
         height="550"
         width="550"
-        src="src/assets/product_1.jpg"
+        src={`https://primefaces.org/cdn/primereact/images/product/${item.image}`}
+
         alt="Assorted Coffee"
         loading="eager"
         placeholder="blur"
       />
       <div className="my-1 md:mx-7 ">
         <div className="border-b border-solid border-gray-300">
-          <div className="tracking-wide text-2xl font-semibold">organic</div>
+
+          <div className="tracking-wide text-2xl font-semibold">
+            {item.name}
+          </div>
 
           <div className="flex justify-start  pt-3 mt-1 font-medium text-black align-text-bottom">
-            <h2 className=" text-xl font-bold pr-2">£35</h2>
+            <h2 className=" text-xl font-bold pr-2">{item.price} dt</h2>
             <p className="font-light">+ Free Shipping</p>
           </div>
 
-          <p className="mt-2 font-light">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
-            deleniti, quos recusandae tempore eaque nam neque itaque molestias
-            officiis inventore sunt quis expedita quisquam exercitationem
-            distinctio quae voluptatibus iste accusantium.
-          </p>
+          <p className="mt-2 font-light">{item.description}</p>
+
 
           <div className="max-w-md flex justify-start mt-5 lg:flex pb-5 ">
             <input
               type="number"
-              className="block border-gray-300 border-[1px] placeholder-gray-400 w-20 p-2 mr-5 text-center "
+
+              className="block border-gray-300 placeholder-gray-400 w-20 p-2 mr-5"
               placeholder="1"
             />
-            <button className="uppercase flex text-sm font-semibold text-white bg-lime-700 hover:bg-lime-600 rounded-md px-20 py-2 ">
+            <button className="uppercase flex text-sm font-semibold text-white bg-blue-300 hover:bg-blue-500 rounded-md px-20 py-2 ">
               Add to Cart
             </button>
           </div>
@@ -43,21 +52,13 @@ const ProductOverView = ({ product }) => {
 
         <div className="mt-3 text-sm pb-5">
           <p>
-            Categories:
-            <a
-              href=""
-              className="text-lime-500 hover:text-lime-700 hover:underline pl-2"
-            >
-              Groceries
-            </a>
-            <a
-              href=""
-              className="text-lime-500 hover:text-lime-700 hover:underline pl-2"
-            >
-              Juice
-            </a>
+            Category
+            <div className="text-blue-300 hover:text-blue-500 hover:underline pl-2">
+              {item.category}
+            </div>
           </p>
         </div>
+
       </div>
     </div>
   );
