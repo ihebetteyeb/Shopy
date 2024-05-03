@@ -1,7 +1,7 @@
 import SignUp from "./signup.jsx";
 
 export default {
-  path: "/signUp",
+  path: "/signup",
   element: <SignUp />,
   auth: true,
 };

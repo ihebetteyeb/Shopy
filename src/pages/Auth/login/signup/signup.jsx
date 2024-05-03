@@ -63,7 +63,7 @@ export default function SignUp() {
       <div className="flex flex-col justify-center items-center gap-[30px] h-fill bg-[#DEEBFF]">
         <img src={SigninImg} className="h-full " />
       </div>
-      <div className="w-full flex flex-col w-full items-center gap-[30px] h-fill ">
+      <div className="w-full flex flex-col items-center gap-[30px] h-fill ">
         <div className="w-full flex justify-center">
           <img
             alt="logo"

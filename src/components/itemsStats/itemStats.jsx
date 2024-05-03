@@ -3,9 +3,9 @@ import { Card } from "primereact/card";
 import { ProgressBar } from "primereact/progressbar";
 export const ItemStats = () => {
   const products = [
-    { name: "Product 1", category: "category 1", sales: 150 },
-    { name: "Product 2", category: "category 2", sales: 100 },
-    { name: "Product 3", category: "category 3", sales: 200 },
+    { name: "Bamboo watch", category: "Accessories", sales: 150 },
+    { name: "Blue band", category: "Fitness", sales: 100 },
+    { name: "Black watch", category: "Accessories", sales: 200 },
   ];
   const totalSales = products.reduce((acc, product) => acc + product.sales, 0);
 

@@ -57,8 +57,8 @@ export default function Header() {
   const start = (
     <img
       alt="logo"
-      src="src/assets/header-logo.png"
-      width="40"
+      src="src/assets/logo-no-background.png"
+      width="60"
       className="mr-2"
     ></img>
   );
