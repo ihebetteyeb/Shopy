@@ -11,13 +11,13 @@
   width: 60px;
 }
 .p-slider .p-slider-range {
-  background: #a2f429;
+  background: #2fb7ec;
 }
 
 .p-slider:not(.p-disabled) .p-slider-handle:hover {
-  background: #a2f429;
-  border-color: #a2f429;
+  background: #2fb7ec;
+  border-color: #2fb7ec;
 }
 .p-slider .p-slider-handle {
-  border: 2px solid #a3f163;
+  border: 2px solid #2fb7ec;
 }

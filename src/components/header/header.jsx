@@ -40,6 +40,9 @@ export default function Header() {
       key: "home",
       label: "Home",
       icon: "pi pi-home",
+      command: () => {
+        navigate("/home");
+      },
     },
     {
       key: "groceries",
@@ -54,8 +57,8 @@ export default function Header() {
   const start = (
     <img
       alt="logo"
-      src="src/assets/logo-no-background.png"
-      width="90"
+      src="src/assets/header-logo.png"
+      width="40"
       className="mr-2"
     ></img>
   );
@@ -92,7 +95,7 @@ export default function Header() {
         style={{ fontSize: "1.4rem" }}
         onClick={() => setVisibleRight(true)}
       >
-        <Badge value={cartItems?.items?.length} severity="success"></Badge>
+        <Badge value={cartItems?.items?.length}></Badge>
       </a>
       <Menu
         model={items2}
