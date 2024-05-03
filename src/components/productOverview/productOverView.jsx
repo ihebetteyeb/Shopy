@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useLocation } from "react-router-dom";
 const ProductOverView = () => {
@@ -16,12 +17,14 @@ const ProductOverView = () => {
         height="550"
         width="550"
         src={`https://primefaces.org/cdn/primereact/images/product/${item.image}`}
+
         alt="Assorted Coffee"
         loading="eager"
         placeholder="blur"
       />
       <div className="my-1 md:mx-7 ">
         <div className="border-b border-solid border-gray-300">
+
           <div className="tracking-wide text-2xl font-semibold">
             {item.name}
           </div>
@@ -33,9 +36,11 @@ const ProductOverView = () => {
 
           <p className="mt-2 font-light">{item.description}</p>
 
+
           <div className="max-w-md flex justify-start mt-5 lg:flex pb-5 ">
             <input
               type="number"
+
               className="block border-gray-300 placeholder-gray-400 w-20 p-2 mr-5"
               placeholder="1"
             />
@@ -53,6 +58,7 @@ const ProductOverView = () => {
             </div>
           </p>
         </div>
+
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import useAuth from "../hooks/useAuth";
 
 function Routing() {
   const { token, isLoading } = useAuth();
-  
+
   const finaleRoute = (route) => {
     if (route.public) return route.element;
     if (token && route.auth) {

@@ -26,16 +26,16 @@ import DataViewer from "../../components/dataViewer/dataViewer.jsx";
 function Groceries() {
   // const { token, isLoading } = useAuth();
   const [products, setProducts] = useState([]);
-  const { data, isLoading: isLoading2 } = useItemsQuery();
-  const [addItemCart, { isError, isSuccess, isLoading }] =
-    useItemCartMutation();
+  // const { data, isLoading: isLoading2 } = useItemsQuery();
+  // const [addItemCart, { isError, isSuccess, isLoading }] =
+  //   useItemCartMutation();
   // useEffect(() => {
   //     console.log(token);
   //   }, [token]);
-  useEffect(() => {
-    console.log(data);
-    setProducts(data?.slice(0, 12));
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  //   setProducts(data?.slice(0, 12));
+  // }, [data]);
 
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState(0);
@@ -49,9 +49,9 @@ function Groceries() {
   // if (isLoading) {
   //   return <p> Loading...</p>;
   // }
-  if (isLoading2) {
-    return <p> Loading...</p>;
-  }
+  // if (isLoading2) {
+  //   return <p> Loading...</p>;
+  // }
 
   const items = [{ label: "Groceries" }];
   const home = { icon: "pi pi-home", url: "" };
