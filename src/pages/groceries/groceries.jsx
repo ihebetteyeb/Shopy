@@ -1,29 +1,25 @@
-// import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth.js";
-// import { useForm } from "react-hook-form";
-import { Button } from "primereact/button";
-
-import { useTestQuery } from "../../store/state/userApiSlice.jsx";
-import ItemCarousel from "../../components/itemCarousel/itemCarousel.jsx";
-import ItemCard from "../../components/itemCard/itemCard.jsx";
-// import { Button } from "primereact/button";
-import Review from "../../components/reviews/reviews.jsx";
-import Landing from "../../components/landing/landing.jsx";
+import React, { useEffect } from "react";
 import GlobalLayout from "../../components/Layouts/GlobalLayout.jsx";
-import { InputText } from "primereact/inputtext";
-import { BreadCrumb } from "primereact/breadcrumb";
 import "./groceries.css";
-import { DataView, DataViewLayoutOptions } from "primereact/dataview";
-import { Rating } from "primereact/rating";
-import { Tag } from "primereact/tag";
-
-import { Dropdown } from "primereact/dropdown";
-import { useItemsQuery } from "../../store/state/itemApiSlice.jsx";
-import { useItemCartMutation } from "../../store/state/userApiSlice.jsx";
 import DataViewer from "../../components/dataViewer/dataViewer.jsx";
+import { usePendingOrderQuery } from "../../store/state/userApiSlice";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 function Groceries() {
+
+  const { data } = usePendingOrderQuery({ userId: 1 });
+  const [order, setOrder] = React.useState({ id: undefined, cartItems: [] });
+  useEffect(() => {
+    if (!data || !data.id || !data.orderItems) return;
+    setOrder({
+      id: data.id,
+      cartItems: data.orderItems.map((orderItem) => ({
+        ...orderItem.item,
+        _quantity: orderItem.quantity,
+      })),
+    });
+  }, [data, setOrder]);
+
   // const { token, isLoading } = useAuth();
   const [products, setProducts] = useState([]);
   // const { data, isLoading: isLoading2 } = useItemsQuery();
@@ -165,45 +161,16 @@ function Groceries() {
     }
   };
 
-  return (
-    <GlobalLayout>
-      {/* <div className="flex flex-grow mt-[100px] mx-[20px]">
-        <div className="w-1/4 border-r border-gray-300 pr-[5px] ">
-          <div className="p-inputgroup flex-1">
-            <InputText placeholder="Search" />
-            <Button icon="pi pi-search" className="p-button-warning" />
-          </div>
-        </div>
 
-        <div className="w-3/4 ml-10 flex flex-col gap-[20px]">
-          <BreadCrumb model={items} home={home} className="border-0" />
-          <h1 className=" text-[48px] leading-[38px] tracking-[0.27px] font-cal-sans font-bold text-[#91CD32]">
-            Groceries
-          </h1>
-          <div className="mt-[20px]">
-            <p className="text-[23px]">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-              dignissim, velit et luctus interdum, est quam scelerisque tellus,
-              eget luctus mi diam vitae erat. Praesent porttitor lacus vitae
-              dictum posuere. Suspendisse elementum metus ac dolor tincidunt, eu
-              imperdiet nisi dictum.
-            </p>
-          </div>
-          <div className="card">
-            <DataView
-              value={products}
-              listTemplate={listTemplate}
-              header={header()}
-              sortField={sortField}
-              sortOrder={sortOrder}
-              paginator
-              rows={6}
-            />
-          </div>
-        </div>
-      </div> */}
-      <DataViewer></DataViewer>
-    </GlobalLayout>
+  return (
+    <>
+      {!order.id && <ProgressSpinner />}
+      {order.id && (
+        <GlobalLayout order={order} setOrder={setOrder}>
+          <DataViewer setOrder={setOrder} orderId={order.id}></DataViewer>
+        </GlobalLayout>
+      )}
+    </>
   );
 }
 

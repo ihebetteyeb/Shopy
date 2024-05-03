@@ -1,16 +1,29 @@
 import { Button } from "primereact/button";
-import { Card } from "primereact/card";
 import { useEffect } from "react";
-import { useRemoveItemCartMutation } from "../../store/state/userApiSlice";
+import { useValidateOrderMutation } from "../../store/state/itemApiSlice";
 
-export default function SideBar({ cardList }) {
+export default function SideBar({ orderId, cardList, setOrder }) {
   useEffect(() => {
     console.log(cardList);
   }, [cardList]);
-  const [removeItem, { isLoading, isSuccess }] = useRemoveItemCartMutation();
 
+  const [validateOrder] = useValidateOrderMutation();
   const handleRemoveItem = (code) => {
-    removeItem({ userId: 2, itemCode: code });
+    setOrder((order) => ({
+      id: order.id,
+      cartItems: order.cartItems.filter((item) => item.code !== code),
+    }));
+  };
+  const onCheckout = () => {
+    validateOrder({ orderId })
+      .unwrap()
+      .then((payload) => {
+        console.log("order update successed: ", payload);
+        setOrder({ id: undefined, cartItems: [] });
+      })
+      .catch((error) => {
+        console.log("order update failed: ", error);
+      });
   };
   return (
     <>
@@ -34,7 +47,9 @@ export default function SideBar({ cardList }) {
                     ></i>
                   </div>
                   <div>
-                    <p>1 x £{item.price}</p>
+                    <p>
+                      {item._quantity} x £{item.price}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -48,6 +63,7 @@ export default function SideBar({ cardList }) {
             label="Checkout"
             className="w-full "
             disabled={cardList.length == 0}
+            onClick={onCheckout}
           />
         </div>
       </div>

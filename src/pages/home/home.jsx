@@ -4,7 +4,6 @@ import useAuth from "../../hooks/useAuth.js";
 // import { useForm } from "react-hook-form";
 import { Button } from "primereact/button";
 
-import { useTestQuery } from "../../store/state/userApiSlice.jsx";
 import ItemCarousel from "../../components/itemCarousel/itemCarousel.jsx";
 import ItemCard from "../../components/itemCard/itemCard.jsx";
 // import { Button } from "primereact/button";

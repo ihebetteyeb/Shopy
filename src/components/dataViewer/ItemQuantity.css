@@ -1,0 +1,8 @@
+.counter {
+  max-height: 10px;
+}
+
+.counter-input {
+  width: 50px;
+  text-align: center;
+}
