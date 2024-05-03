@@ -8,20 +8,20 @@ import signinConfig from "../pages/Auth/login/signin.config";
 
 import productConfig from "../pages/product/product.config";
 
-const routeConfigs = [homeConfig, signinConfig, productConfig];
-
 import groceriesConfig from "../pages/groceries/groceries.config";
 import dashboardConfig from "../pages/dashboard/dashboard.config";
 import productsConfig from "../components/products/products.config";
+import signupConfig from "../pages/Auth/login/signup/signup.config";
+
 const routeConfigs = [
   homeConfig,
   signinConfig,
   groceriesConfig,
   dashboardConfig,
   productsConfig,
-  productConfig
+  productConfig,
+  signupConfig,
 ];
-
 
 const routes = [
   ...routeConfigs,

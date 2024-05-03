@@ -204,7 +204,7 @@ export default function DataViewer() {
   };
 
   const listTemplate = (products, layout) => {
-    if (products.length === 0)
+    if (products?.length === 0)
       return (
         <div className="flex justify-center text-2xl font-bold pt-10">
           No item found
@@ -212,7 +212,9 @@ export default function DataViewer() {
       );
     return (
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 gap-3">
-        {products.map((product, index) => itemTemplate(product, layout, index))}
+        {products?.map((product, index) =>
+          itemTemplate(product, layout, index)
+        )}
       </div>
     );
   };
@@ -285,7 +287,7 @@ export default function DataViewer() {
           header={header()}
           sortField={sortField}
           sortOrder={sortOrder}
-          paginator={filteredItems.length}
+          paginator={filteredItems?.length}
           emptyMessage={true}
           rows={8}
         />

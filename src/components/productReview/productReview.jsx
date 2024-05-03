@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import { MdStarBorder, MdStar } from 'react-icons/md';
 
 
