@@ -74,9 +74,7 @@ export default function Header({ order, setOrder }) {
         style={{ fontSize: "1.4rem" }}
         onClick={() => setVisibleRight(true)}
       >
-
-        <Badge value={order.cartItems?.length} severity="success"></Badge>
-
+        <Badge value={order?.cartItems?.length} severity="success"></Badge>
       </a>
       <Menu
         model={items2}
@@ -105,11 +103,13 @@ export default function Header({ order, setOrder }) {
         onHide={() => setVisibleRight(false)}
         className="h-screen "
       >
-        <SideBar
-          orderId={order.id}
-          cardList={order.cartItems}
-          setOrder={setOrder}
-        />
+        {order && (
+          <SideBar
+            orderId={order.id}
+            cardList={order.cartItems}
+            setOrder={setOrder}
+          />
+        )}
       </Sidebar>
     </>
   );
