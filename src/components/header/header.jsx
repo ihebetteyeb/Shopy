@@ -87,7 +87,7 @@ export default function Header() {
   const menuRight = React.useRef(null);
   const end = (
     <div className="flex justify-center items-center gap-6">
-      <a className="hover: bg-gray-300 ">About</a>
+      <a className="">About</a>
 
       <a>Contact</a>
       <a
