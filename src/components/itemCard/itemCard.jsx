@@ -9,7 +9,18 @@ export default function ItemCard() {
         className="bg-contain bg-no-repeat bg-right h-40 w-full flex  items-start"
         style={{
           backgroundImage:
-            "url('https://nearlynakedveg.co.uk/cdn/shop/products/Depositphotos_169272482_S.jpg?v=1681411963')",
+            "url('https://d2bzx2vuetkzse.cloudfront.net/fit-in/0x450/outfits/f7c0634a-3421-43e6-acdf-eaae0a15c049.jpeg')",
+        }}
+      ></div>
+    </>
+  );
+  const footer1 = (
+    <>
+      <div
+        className="bg-contain bg-no-repeat bg-right h-40 w-full flex  items-start"
+        style={{
+          backgroundImage:
+            "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8kG8kBViE4QIvg1aVZtyEKdsEXhySJV2RjDB3t8PhiQ&s')",
         }}
       >
         <div>
@@ -18,19 +29,30 @@ export default function ItemCard() {
       </div>
     </>
   );
+  const footer2 = (
+    <>
+      <div
+        className="bg-contain bg-no-repeat bg-right h-40 w-full flex  items-start"
+        style={{
+          backgroundImage:
+            "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ54G9Rhe_KZgMFw5yjKa1G4oqcRjZBETV7FGSs6IoF5Q&s')",
+        }}
+      ></div>
+    </>
+  );
 
   return (
     <div className="flex justify-center items-center p-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-center w-full max-w-6xl">
         <Card title="Farm Fresh Fruits" footer={footer}>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+          <p>Various Items</p>
         </Card>
-        <Card title="Farm Fresh Fruits" footer={footer}>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        <Card title="Farm Fresh Fruits" footer={footer1}>
+          <p>Don't miss your chance !</p>
         </Card>
 
-        <Card title="Farm Fresh Fruits" footer={footer}>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        <Card title="Farm Fresh Fruits" footer={footer2}>
+          <p>Good quality with the cheapest price</p>
         </Card>
       </div>
     </div>
