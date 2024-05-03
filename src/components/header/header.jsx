@@ -5,13 +5,10 @@ import { Avatar } from "primereact/avatar";
 import { Menu } from "primereact/menu";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../store/state/userSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PrimeIcons } from "primereact/api";
 import { useCartQuery } from "../../store/state/userApiSlice";
 import { Sidebar } from "primereact/sidebar";
-
-import { Card } from "primereact/card";
-import { Button } from "primereact/button";
 import SideBar from "./sideBar";
 
 export default function Header() {
@@ -112,8 +109,6 @@ export default function Header() {
       />
     </div>
   );
-
-  
 
   return (
     <>

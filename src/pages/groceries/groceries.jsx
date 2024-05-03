@@ -21,6 +21,7 @@ import { Tag } from "primereact/tag";
 import { Dropdown } from "primereact/dropdown";
 import { useItemsQuery } from "../../store/state/itemApiSlice.jsx";
 import { useItemCartMutation } from "../../store/state/userApiSlice.jsx";
+import DataViewer from "../../components/dataViewer/dataViewer.jsx";
 
 function Groceries() {
   // const { token, isLoading } = useAuth();
@@ -166,7 +167,7 @@ function Groceries() {
 
   return (
     <GlobalLayout>
-      <div className="flex flex-grow mt-[100px] mx-[20px]">
+      {/* <div className="flex flex-grow mt-[100px] mx-[20px]">
         <div className="w-1/4 border-r border-gray-300 pr-[5px] ">
           <div className="p-inputgroup flex-1">
             <InputText placeholder="Search" />
@@ -200,8 +201,8 @@ function Groceries() {
             />
           </div>
         </div>
-      </div>
-      ;
+      </div> */}
+      <DataViewer></DataViewer>
     </GlobalLayout>
   );
 }
