@@ -17,7 +17,7 @@ const itemApiSlice = createApi({
       query: ({ body, code }) => ({
         url: `/item/updateItem/${code}`,
         method: "PUT",
-        body: body,
+        body,
         credentials: "include",
       }),
     }),
@@ -32,7 +32,22 @@ const itemApiSlice = createApi({
       query: ({ body }) => ({
         url: "/item/addItem",
         method: "POST",
-        body: body,
+        body,
+        credentials: "include",
+      }),
+    }),
+    updateOrder: builder.mutation({
+      query: (body) => ({
+        url: `/orderItem/updateOrder`,
+        body,
+        method: "POST",
+        credentials: "include",
+      }),
+    }),
+    validateOrder: builder.mutation({
+      query: ({ orderId }) => ({
+        url: `/order/validateOrder/${orderId}`,
+        method: "GET",
         credentials: "include",
       }),
     }),
@@ -44,6 +59,8 @@ export const {
   useUpdateItemMutation,
   useDeleteItemMutation,
   useAddItemMutation,
+  useUpdateOrderMutation,
+  useValidateOrderMutation,
 } = itemApiSlice;
 
 export default itemApiSlice;

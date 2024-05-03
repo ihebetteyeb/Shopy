@@ -7,34 +7,13 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "../../store/state/userSlice";
 import { useNavigate } from "react-router-dom";
 import { PrimeIcons } from "primereact/api";
-import { useCartQuery } from "../../store/state/userApiSlice";
 import { Sidebar } from "primereact/sidebar";
 import SideBar from "./sideBar";
 
-export default function Header() {
+export default function Header({ order, setOrder }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data: cartItems } = useCartQuery(2);
   const [visibleRight, setVisibleRight] = React.useState(false);
-  React.useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
-  const [products, setProducts] = React.useState([]);
-
-  const itemRenderer = (item) => (
-    <a className="flex align-items-center p-menuitem-link">
-      <span className={item.icon} />
-      <span className="mx-2">{item.label}</span>
-      {item.badge && (
-        <Badge className="ml-auto" severity="success" value={item.badge} />
-      )}
-      {item.shortcut && (
-        <span className="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">
-          {item.shortcut}
-        </span>
-      )}
-    </a>
-  );
   const items = [
     {
       key: "home",
@@ -92,7 +71,7 @@ export default function Header() {
         style={{ fontSize: "1.4rem" }}
         onClick={() => setVisibleRight(true)}
       >
-        <Badge value={cartItems?.items?.length} severity="success"></Badge>
+        <Badge value={order.cartItems?.length} severity="success"></Badge>
       </a>
       <Menu
         model={items2}
@@ -121,7 +100,11 @@ export default function Header() {
         onHide={() => setVisibleRight(false)}
         className="h-screen "
       >
-        <SideBar cardList={cartItems?.items} />
+        <SideBar
+          orderId={order.id}
+          cardList={order.cartItems}
+          setOrder={setOrder}
+        />
       </Sidebar>
     </>
   );

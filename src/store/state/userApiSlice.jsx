@@ -43,22 +43,12 @@ const userApiSlice = createApi({
       }),
       providesTags: ["CartItem"],
     }),
-    itemCart: builder.mutation({
-      query: ({ body, userId }) => ({
-        url: `/cart/addItem/${userId}`,
-        method: "POST",
-        body: body,
+    pendingOrder: builder.query({
+      query: ({ userId }) => ({
+        url: `/order/getLatestPendingOrder/${userId}`,
+        method: "GET",
         credentials: "include",
       }),
-      invalidatesTags: ["CartItem"],
-    }),
-    removeItemCart: builder.mutation({
-      query: ({ userId, itemCode }) => ({
-        url: `/cart/removeItem/${userId}/${itemCode}`,
-        method: "DELETE",
-        credentials: "include",
-      }),
-      invalidatesTags: ["CartItem"],
     }),
     test: builder.query({
       query: () => ({
@@ -76,8 +66,7 @@ export const {
   useRegisterMutation,
   useRefreshMutation,
   useCartQuery,
-  useItemCartMutation,
-  useRemoveItemCartMutation,
+  usePendingOrderQuery,
   useTestQuery,
 } = userApiSlice;
 

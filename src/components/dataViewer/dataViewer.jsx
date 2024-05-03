@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { ProductService } from "../../services/ProductService";
 import { Button } from "primereact/button";
 import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import { InputText } from "primereact/inputtext";
@@ -9,78 +8,102 @@ import { Tag } from "primereact/tag";
 import { classNames } from "primereact/utils";
 import "./dataViewer.css";
 import { Slider } from "primereact/slider";
-import { useItemsQuery } from "../../store/state/itemApiSlice.jsx";
-import { useItemCartMutation } from "../../store/state/userApiSlice.jsx";
+import {
+  useItemsQuery,
+  useUpdateOrderMutation,
+} from "../../store/state/itemApiSlice.jsx";
+import ItemQuantity from "./ItemQuantity.jsx";
 
-export default function DataViewer() {
+export default function DataViewer({ orderId, setOrder }) {
   const [products, setProducts] = useState([]);
   const [layout, setLayout] = useState("grid");
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState(0);
   const [sortField, setSortField] = useState("");
-  const [searchItem, setSearchItem] = useState("");
-  const [filteredItems, setFilteredItems] = useState(products);
+  const [updateOrder] = useUpdateOrderMutation();
+  const [searchFilter, setSearchFilter] = useState({
+    term: undefined,
+    range: [0, 200],
+  });
   //search for max price and set it as the max value for the slider
-  const [value, setValue] = useState([0, 200]);
-  const { data, isLoading: isLoading2 } = useItemsQuery();
-  const [addItemCart, { isError, isSuccess, isLoading }] =
-    useItemCartMutation();
+  const { data } = useItemsQuery();
 
   const sortOptions = [
     { label: "Price High to Low", value: "!price" },
     { label: "Price Low to High", value: "price" },
   ];
+
+  const getFilteredProduct = () =>
+    products.filter((product) => {
+      if (searchFilter.term && searchFilter.term !== "")
+        return product.name
+          .toLowerCase()
+          .includes(searchFilter.term.toLowerCase());
+      if (searchFilter.range)
+        return (
+          product.price >= searchFilter.range[0] &&
+          product.price <= searchFilter.range[1]
+        );
+    });
+
   const handleInputChange = (e) => {
     const searchTerm = e.target.value;
-    setSearchItem(searchTerm);
-    const items = products.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    setFilteredItems(items);
+    setSearchFilter((oldSearchFilter) => ({
+      ...oldSearchFilter,
+      term: searchTerm,
+    }));
   };
 
   const handlePriceFilterChange = (values) => {
-    setValue(values);
-    let inf = values[0];
-    let sup = values[1];
-    const items = filteredItems.filter(
-      (filteredItems) =>
-        filteredItems.price >= inf && filteredItems.price <= sup
-    );
-    setFilteredItems(items);
+    setSearchFilter((oldSearchFilter) => ({
+      ...oldSearchFilter,
+      range: values,
+    }));
   };
 
-  // useEffect(() => {
-  //   ProductService.getProducts()
-  //     .then((data) => {
-  //       setProducts(data);
-  //       setFilteredItems(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching products:", error);
-  //     });
-  // }, []);
-
   useEffect(() => {
-    console.log(data);
-    setProducts(data?.slice(0, 12));
-    setFilteredItems(data);
+    if (!data) return;
+    setProducts(
+      data.map((product) => {
+        return { ...product, _quantity: 0 };
+      })
+    );
   }, [data]);
 
   const handleCartClick = (product) => {
-    console.log(product);
-
-    addItemCart({ body: product, userId: 2 })
-      .unwrap()
-      .then((payload) => {
-        console.log(payload);
-      })
-      .catch((error) => {
-        console.log(error);
+    console.log("handleCartClick", product);
+    if (product._quantity > 0) {
+      setOrder((order) => {
+        return {
+          id: order.id,
+          cartItems: [
+            ...order.cartItems.filter((items) => items.code != product.code),
+            { ...product },
+          ],
+        };
       });
+      updateOrder({
+        itemCode: product.code,
+        orderId: orderId,
+        quantity: product._quantity,
+      })
+        .unwrap()
+        .then((payload) => {
+          console.log("order update successed: ", payload);
+        })
+        .catch((error) => {
+          console.log("order update failed: ", error);
+        });
+    }
   };
-
+  const updateProductQty = (updatedProduct, qts) => {
+    updatedProduct._quantity = qts;
+    setProducts((products) =>
+      products.map((product) =>
+        product.code === updatedProduct.code ? updatedProduct : product
+      )
+    );
+  };
   const getSeverity = (product) => {
     switch (product.inventoryStatus) {
       case "INSTOCK":
@@ -98,7 +121,6 @@ export default function DataViewer() {
   };
   const onSortChange = (event) => {
     const value = event.value;
-    console.log(value);
 
     if (value.indexOf("!") === 0) {
       setSortOrder(-1);
@@ -115,7 +137,7 @@ export default function DataViewer() {
     return (
       <div
         className="lg:col-span-4 md:col-span-3 sm:col-span-2 xs:col-span-1 "
-        key={product.id}
+        key={product.code}
       >
         <div
           className={classNames(
@@ -159,7 +181,7 @@ export default function DataViewer() {
 
   const gridItem = (product) => {
     return (
-      <div className="p-2" key={product.id}>
+      <div className="p-2" key={product.code}>
         <div className="p-4 border-2 border-inherit rounded">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
@@ -182,6 +204,11 @@ export default function DataViewer() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xl font-semibold">${product.price}</span>
+            <ItemQuantity
+              initialValue={product._quantity}
+              maxValue={product.quantity}
+              onValueChange={(qty) => updateProductQty(product, qty)}
+            />
             <Button
               icon="pi pi-shopping-cart"
               className="p-button-rounded"
@@ -238,7 +265,7 @@ export default function DataViewer() {
       </div>
     );
   };
-
+  const filteredItems = getFilteredProduct();
   return (
     <div className="grid grid-cols-5 p-4 gap-2">
       <div className="flex  border col-span-1 justify-center">
@@ -247,7 +274,7 @@ export default function DataViewer() {
             <i className="pi pi-search" />
             <InputText
               id="search"
-              value={searchItem}
+              value={searchFilter.term}
               onChange={handleInputChange}
               placeholder="Type to search"
             />
@@ -255,7 +282,7 @@ export default function DataViewer() {
           <div className="pt-10">
             <p className="pb-3">Filter by price</p>
             <Slider
-              value={value}
+              value={searchFilter.range}
               onChange={(e) => handlePriceFilterChange(e.value)}
               className="mr-4 ml-4"
               range
@@ -264,13 +291,13 @@ export default function DataViewer() {
               <div className="flex justify-end p-1">
                 <InputText
                   id="filter_price1"
-                  value={value[0]}
-                  onChange={(e) => setValue(e.target.value)}
+                  value={searchFilter.range[0]}
+                  onChange={(e) => handlePriceFilterChange(e.target.value)}
                 />
                 <InputText
                   id="filter_price2"
-                  value={value[1]}
-                  onChange={(e) => setValue(e.target.value)}
+                  value={searchFilter.range[1]}
+                  onChange={(e) => handlePriceFilterChange(e.target.value)}
                 />
               </div>
             </div>
