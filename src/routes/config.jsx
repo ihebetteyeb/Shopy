@@ -12,6 +12,7 @@ import groceriesConfig from "../pages/groceries/groceries.config";
 import dashboardConfig from "../pages/dashboard/dashboard.config";
 import productsConfig from "../components/products/products.config";
 import signupConfig from "../pages/Auth/login/signup/signup.config";
+import orderConfig from "../pages/orders/order.config";
 
 const routeConfigs = [
   homeConfig,
@@ -21,6 +22,7 @@ const routeConfigs = [
   productsConfig,
   productConfig,
   signupConfig,
+  orderConfig,
 ];
 
 const routes = [

@@ -1,8 +1,10 @@
 import { Button } from "primereact/button";
 import { useEffect } from "react";
 import { useValidateOrderMutation } from "../../store/state/itemApiSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function SideBar({ orderId, cardList, setOrder }) {
+  const navigate = useNavigate();
   useEffect(() => {
     console.log(cardList);
   }, [cardList]);
@@ -20,6 +22,7 @@ export default function SideBar({ orderId, cardList, setOrder }) {
       .then((payload) => {
         console.log("order update successed: ", payload);
         setOrder({ id: undefined, cartItems: [] });
+        navigate("/home");
       })
       .catch((error) => {
         console.log("order update failed: ", error);
