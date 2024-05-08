@@ -31,6 +31,14 @@ export default function Header({ order, setOrder }) {
         navigate("/groceries");
       },
     },
+    {
+      key: "orders",
+      label: "Orders",
+      icon: "pi pi-file",
+      command: () => {
+        navigate("/order");
+      },
+    },
   ];
 
   const start = (
