@@ -14,6 +14,7 @@ import {
   useUpdateOrderMutation,
 } from "../../store/state/itemApiSlice.jsx";
 import ItemQuantity from "./ItemQuantity.jsx";
+import { Navigate } from "@tanstack/react-router";
 
 export default function DataViewer({ orderId, setOrder }) {
   const [products, setProducts] = useState([]);
@@ -21,13 +22,14 @@ export default function DataViewer({ orderId, setOrder }) {
   const [sortKey, setSortKey] = useState("");
   const [sortOrder, setSortOrder] = useState(0);
   const [sortField, setSortField] = useState("");
+  const navigate = useNavigate();
 
   const [updateOrder] = useUpdateOrderMutation();
   const [searchFilter, setSearchFilter] = useState({
     term: undefined,
     range: [0, 200],
   });
-  
+
   //search for max price and set it as the max value for the slider
   const { data } = useItemsQuery();
 

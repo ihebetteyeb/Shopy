@@ -22,7 +22,7 @@ export default function SideBar({ orderId, cardList, setOrder }) {
       .then((payload) => {
         console.log("order update successed: ", payload);
         setOrder({ id: undefined, cartItems: [] });
-        navigate("/home");
+        navigate("/order");
       })
       .catch((error) => {
         console.log("order update failed: ", error);
